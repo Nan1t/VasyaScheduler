@@ -4,6 +4,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import ru.nanit.vasyascheduler.api.util.Logger;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,6 +17,12 @@ public class PostgreSQLDatabase implements Database {
     private HikariDataSource ds;
 
     public PostgreSQLDatabase(String host, int port, String dbname, String user, String password) throws SQLException {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
         connString = "jdbc:postgresql://" + host + ":" + port + "/" + dbname;
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(connString);

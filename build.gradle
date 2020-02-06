@@ -40,6 +40,7 @@ dependencies {
     /* Database drivers */
     compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.5.jre7'
+    //compile files("libs/postgresql-42.2.5.jar")
     compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.20.0'
     compile group: 'com.h2database', name: 'h2', version: '1.4.197'
 
