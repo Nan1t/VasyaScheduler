@@ -10,4 +10,5 @@
 !src/**
 !build/libs/**
 !Procfile
-!gradle/wrapper/**
+!gradle/**
+!.gradle/**
