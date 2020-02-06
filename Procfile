@@ -1,0 +1,1 @@
+worker: java -jar /build/libs/VasyaScheduler-1.0.jar
