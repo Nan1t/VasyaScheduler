@@ -32,15 +32,16 @@ dependencies {
     /* HOCON configuration library */
     compile group: 'ninja.leaping.configurate', name: 'configurate-hocon', version: '3.3'
     /* Library to parse Microsoft office documents */
-    compileOnly group: 'com.aspose', name: 'aspose-cells', version: '19.7'
+    //compile group: 'com.aspose', name: 'aspose-cells', version: '19.7'
+    compile files('libs/aspose-cells-19.12_cracked.jar')
     /* HTTP server library */
-    compileOnly 'org.nanohttpd:nanohttpd:2.3.1'
+    compile 'org.nanohttpd:nanohttpd:2.3.1'
 
     /* Database drivers */
-    compileOnly group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
-    compileOnly group: 'org.postgresql', name: 'postgresql', version: '42.2.5.jre7'
-    compileOnly group: 'org.xerial', name: 'sqlite-jdbc', version: '3.20.0'
-    compileOnly group: 'com.h2database', name: 'h2', version: '1.4.197'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.5.jre7'
+    compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.20.0'
+    compile group: 'com.h2database', name: 'h2', version: '1.4.197'
 
     /* API libraries for some messengers */
     compile group: 'org.telegram', name: 'telegrambots', version: '4.1'
