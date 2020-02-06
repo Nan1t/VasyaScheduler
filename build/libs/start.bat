@@ -1,1 +1,0 @@
-java -jar VasyaScheduler-1.0.jar
