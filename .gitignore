@@ -10,3 +10,4 @@
 !src/**
 !build/libs/**
 !Procfile
+!gradle/wrapper/**
