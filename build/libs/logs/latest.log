@@ -1,0 +1,180 @@
+[18:21:32] INFO: Loading libraries...
+[18:21:32] INFO: Starting bot...
+[18:21:32] INFO: Connecting to database...
+[18:21:33] INFO: Connected successfully to jdbc:postgresql://ec2-54-75-230-41.eu-west-1.compute.amazonaws.com:5432/dbuobu20m1je8
+[18:21:34] INFO: Loaded 15 properties
+[18:21:34] INFO: Loading teachers schedule...
+[18:21:35] INFO: Teachers schedule loaded!
+[18:21:35] INFO: Loading consultations schedule...
+[18:21:36] INFO: Consultations schedule loaded!
+[18:21:36] INFO: Loading students schedule...
+[18:21:37] INFO: Loaded student schedule 'inst_1'
+[18:21:38] INFO: Loaded student schedule 'inst_2'
+[18:21:40] INFO: Loaded student schedule 'inst_3'
+[18:21:40] INFO: Loaded student schedule 'inst_4'
+[18:21:41] INFO: Loaded student schedule 'inst_5'
+[18:21:43] INFO: Loaded student schedule 'col_1'
+[18:21:44] INFO: Loaded student schedule 'col_2'
+[18:21:45] INFO: Loaded student schedule 'col_3'
+[18:21:45] INFO: Loaded student schedule 'col_4'
+[18:21:46] INFO: Loaded student schedule 'col_3k'
+[18:21:47] INFO: Loaded student schedule 'inst_zo_1'
+[18:21:47] INFO: Loaded student schedule 'inst_zo_2'
+[18:21:47] ERROR: Cannot convert workbook to image: 
+java.lang.IndexOutOfBoundsException: Index: 2, Size: 2
+	at java.util.ArrayList.rangeCheck(Unknown Source) ~[?:1.8.0_231]
+	at java.util.ArrayList.get(Unknown Source) ~[?:1.8.0_231]
+	at com.aspose.cells.WorksheetCollection.get(Unknown Source) ~[VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.services.conversion.XlsToImage.generate(XlsToImage.java:50) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.data.schedule.Schedule.parseImage(Schedule.java:59) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.data.schedule.StudentSchedule.parse(StudentSchedule.java:71) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.services.ScheduleManager.loadStudentsSchedule(ScheduleManager.java:96) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.VasyaScheduler.start(VasyaScheduler.java:101) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.Main.main(Main.java:15) [VasyaScheduler-1.0.jar:?]
+[18:21:47] ERROR: Cannot load schedule inst_zo_3: 
+java.lang.IndexOutOfBoundsException: Index: 2, Size: 2
+	at java.util.ArrayList.rangeCheck(Unknown Source) ~[?:1.8.0_231]
+	at java.util.ArrayList.get(Unknown Source) ~[?:1.8.0_231]
+	at com.aspose.cells.WorksheetCollection.get(Unknown Source) ~[VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.data.schedule.StudentSchedule.parse(StudentSchedule.java:76) ~[VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.services.ScheduleManager.loadStudentsSchedule(ScheduleManager.java:96) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.VasyaScheduler.start(VasyaScheduler.java:101) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.Main.main(Main.java:15) [VasyaScheduler-1.0.jar:?]
+[18:21:47] ERROR: Cannot convert workbook to image: 
+java.lang.IndexOutOfBoundsException: Index: 3, Size: 2
+	at java.util.ArrayList.rangeCheck(Unknown Source) ~[?:1.8.0_231]
+	at java.util.ArrayList.get(Unknown Source) ~[?:1.8.0_231]
+	at com.aspose.cells.WorksheetCollection.get(Unknown Source) ~[VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.services.conversion.XlsToImage.generate(XlsToImage.java:50) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.data.schedule.Schedule.parseImage(Schedule.java:59) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.data.schedule.StudentSchedule.parse(StudentSchedule.java:71) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.services.ScheduleManager.loadStudentsSchedule(ScheduleManager.java:96) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.VasyaScheduler.start(VasyaScheduler.java:101) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.Main.main(Main.java:15) [VasyaScheduler-1.0.jar:?]
+[18:21:47] ERROR: Cannot load schedule inst_zo_4: 
+java.lang.IndexOutOfBoundsException: Index: 3, Size: 2
+	at java.util.ArrayList.rangeCheck(Unknown Source) ~[?:1.8.0_231]
+	at java.util.ArrayList.get(Unknown Source) ~[?:1.8.0_231]
+	at com.aspose.cells.WorksheetCollection.get(Unknown Source) ~[VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.data.schedule.StudentSchedule.parse(StudentSchedule.java:76) ~[VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.services.ScheduleManager.loadStudentsSchedule(ScheduleManager.java:96) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.VasyaScheduler.start(VasyaScheduler.java:101) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.Main.main(Main.java:15) [VasyaScheduler-1.0.jar:?]
+[18:21:47] ERROR: Cannot convert workbook to image: 
+java.lang.IndexOutOfBoundsException: Index: 4, Size: 2
+	at java.util.ArrayList.rangeCheck(Unknown Source) ~[?:1.8.0_231]
+	at java.util.ArrayList.get(Unknown Source) ~[?:1.8.0_231]
+	at com.aspose.cells.WorksheetCollection.get(Unknown Source) ~[VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.services.conversion.XlsToImage.generate(XlsToImage.java:50) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.data.schedule.Schedule.parseImage(Schedule.java:59) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.data.schedule.StudentSchedule.parse(StudentSchedule.java:71) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.services.ScheduleManager.loadStudentsSchedule(ScheduleManager.java:96) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.VasyaScheduler.start(VasyaScheduler.java:101) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.Main.main(Main.java:15) [VasyaScheduler-1.0.jar:?]
+[18:21:47] ERROR: Cannot load schedule inst_zo_5: 
+java.lang.IndexOutOfBoundsException: Index: 4, Size: 2
+	at java.util.ArrayList.rangeCheck(Unknown Source) ~[?:1.8.0_231]
+	at java.util.ArrayList.get(Unknown Source) ~[?:1.8.0_231]
+	at com.aspose.cells.WorksheetCollection.get(Unknown Source) ~[VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.data.schedule.StudentSchedule.parse(StudentSchedule.java:76) ~[VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.services.ScheduleManager.loadStudentsSchedule(ScheduleManager.java:96) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.VasyaScheduler.start(VasyaScheduler.java:101) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.Main.main(Main.java:15) [VasyaScheduler-1.0.jar:?]
+[18:21:47] ERROR: Cannot convert workbook to image: 
+java.lang.IndexOutOfBoundsException: Index: 5, Size: 2
+	at java.util.ArrayList.rangeCheck(Unknown Source) ~[?:1.8.0_231]
+	at java.util.ArrayList.get(Unknown Source) ~[?:1.8.0_231]
+	at com.aspose.cells.WorksheetCollection.get(Unknown Source) ~[VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.services.conversion.XlsToImage.generate(XlsToImage.java:50) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.data.schedule.Schedule.parseImage(Schedule.java:59) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.data.schedule.StudentSchedule.parse(StudentSchedule.java:71) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.services.ScheduleManager.loadStudentsSchedule(ScheduleManager.java:96) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.VasyaScheduler.start(VasyaScheduler.java:101) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.Main.main(Main.java:15) [VasyaScheduler-1.0.jar:?]
+[18:21:47] ERROR: Cannot load schedule inst_zo_6: 
+java.lang.IndexOutOfBoundsException: Index: 5, Size: 2
+	at java.util.ArrayList.rangeCheck(Unknown Source) ~[?:1.8.0_231]
+	at java.util.ArrayList.get(Unknown Source) ~[?:1.8.0_231]
+	at com.aspose.cells.WorksheetCollection.get(Unknown Source) ~[VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.data.schedule.StudentSchedule.parse(StudentSchedule.java:76) ~[VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.services.ScheduleManager.loadStudentsSchedule(ScheduleManager.java:96) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.VasyaScheduler.start(VasyaScheduler.java:101) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.Main.main(Main.java:15) [VasyaScheduler-1.0.jar:?]
+[18:21:48] ERROR: Cannot convert workbook to image: 
+java.lang.IndexOutOfBoundsException: Index: 6, Size: 2
+	at java.util.ArrayList.rangeCheck(Unknown Source) ~[?:1.8.0_231]
+	at java.util.ArrayList.get(Unknown Source) ~[?:1.8.0_231]
+	at com.aspose.cells.WorksheetCollection.get(Unknown Source) ~[VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.services.conversion.XlsToImage.generate(XlsToImage.java:50) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.data.schedule.Schedule.parseImage(Schedule.java:59) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.data.schedule.StudentSchedule.parse(StudentSchedule.java:71) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.services.ScheduleManager.loadStudentsSchedule(ScheduleManager.java:96) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.VasyaScheduler.start(VasyaScheduler.java:101) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.Main.main(Main.java:15) [VasyaScheduler-1.0.jar:?]
+[18:21:48] ERROR: Cannot load schedule postgraduates: 
+java.lang.IndexOutOfBoundsException: Index: 6, Size: 2
+	at java.util.ArrayList.rangeCheck(Unknown Source) ~[?:1.8.0_231]
+	at java.util.ArrayList.get(Unknown Source) ~[?:1.8.0_231]
+	at com.aspose.cells.WorksheetCollection.get(Unknown Source) ~[VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.data.schedule.StudentSchedule.parse(StudentSchedule.java:76) ~[VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.services.ScheduleManager.loadStudentsSchedule(ScheduleManager.java:96) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.VasyaScheduler.start(VasyaScheduler.java:101) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.Main.main(Main.java:15) [VasyaScheduler-1.0.jar:?]
+[18:21:48] INFO: Loaded student schedule 'col_zo_1'
+[18:21:49] ERROR: Cannot convert workbook to image: 
+java.lang.IndexOutOfBoundsException: Index: 1, Size: 1
+	at java.util.ArrayList.rangeCheck(Unknown Source) ~[?:1.8.0_231]
+	at java.util.ArrayList.get(Unknown Source) ~[?:1.8.0_231]
+	at com.aspose.cells.WorksheetCollection.get(Unknown Source) ~[VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.services.conversion.XlsToImage.generate(XlsToImage.java:50) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.data.schedule.Schedule.parseImage(Schedule.java:59) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.data.schedule.StudentSchedule.parse(StudentSchedule.java:71) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.services.ScheduleManager.loadStudentsSchedule(ScheduleManager.java:96) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.VasyaScheduler.start(VasyaScheduler.java:101) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.Main.main(Main.java:15) [VasyaScheduler-1.0.jar:?]
+[18:21:49] ERROR: Cannot load schedule col_zo_2: 
+java.lang.IndexOutOfBoundsException: Index: 1, Size: 1
+	at java.util.ArrayList.rangeCheck(Unknown Source) ~[?:1.8.0_231]
+	at java.util.ArrayList.get(Unknown Source) ~[?:1.8.0_231]
+	at com.aspose.cells.WorksheetCollection.get(Unknown Source) ~[VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.data.schedule.StudentSchedule.parse(StudentSchedule.java:76) ~[VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.services.ScheduleManager.loadStudentsSchedule(ScheduleManager.java:96) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.VasyaScheduler.start(VasyaScheduler.java:101) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.Main.main(Main.java:15) [VasyaScheduler-1.0.jar:?]
+[18:21:49] ERROR: Cannot convert workbook to image: 
+java.lang.IndexOutOfBoundsException: Index: 2, Size: 1
+	at java.util.ArrayList.rangeCheck(Unknown Source) ~[?:1.8.0_231]
+	at java.util.ArrayList.get(Unknown Source) ~[?:1.8.0_231]
+	at com.aspose.cells.WorksheetCollection.get(Unknown Source) ~[VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.services.conversion.XlsToImage.generate(XlsToImage.java:50) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.data.schedule.Schedule.parseImage(Schedule.java:59) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.data.schedule.StudentSchedule.parse(StudentSchedule.java:71) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.services.ScheduleManager.loadStudentsSchedule(ScheduleManager.java:96) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.VasyaScheduler.start(VasyaScheduler.java:101) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.Main.main(Main.java:15) [VasyaScheduler-1.0.jar:?]
+[18:21:49] ERROR: Cannot load schedule col_zo_3: 
+java.lang.IndexOutOfBoundsException: Index: 2, Size: 1
+	at java.util.ArrayList.rangeCheck(Unknown Source) ~[?:1.8.0_231]
+	at java.util.ArrayList.get(Unknown Source) ~[?:1.8.0_231]
+	at com.aspose.cells.WorksheetCollection.get(Unknown Source) ~[VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.data.schedule.StudentSchedule.parse(StudentSchedule.java:76) ~[VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.services.ScheduleManager.loadStudentsSchedule(ScheduleManager.java:96) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.VasyaScheduler.start(VasyaScheduler.java:101) [VasyaScheduler-1.0.jar:?]
+	at ru.nanit.vasyascheduler.Main.main(Main.java:15) [VasyaScheduler-1.0.jar:?]
+[18:21:49] INFO: All students schedule successfully loaded!
+[18:21:50] INFO: [TELEGRAM] Bot successfully started
+[18:21:50] INFO: Timer has been started
+[18:21:50] INFO: Done! For help, type "help" or "?"
+[18:21:56] INFO: [TELEGRAM] User 629654343 entered command 'consultations'
+[18:22:04] INFO: [TELEGRAM] User 629654343 entered command 'consultations'
+[18:22:06] INFO: [TELEGRAM] User 629654343 entered command 'consultations'
+[18:22:08] INFO: [TELEGRAM] User 629654343 entered command 'consultations'
+[18:22:17] INFO: [TELEGRAM] User 629654343 entered command 'consultations'
+[18:22:19] INFO: [TELEGRAM] User 629654343 entered command 'consultations'
+[18:22:20] INFO: [TELEGRAM] User 629654343 entered command 'consultations'
+[18:22:22] INFO: [TELEGRAM] User 629654343 entered command 'consultations'
+[18:22:52] INFO: Stopping bot...
+[18:22:52] INFO: Database connection closed
+[18:22:52] INFO: Timer has been stopped
+[18:22:52] INFO: Telegram bot disabled
+[18:22:52] INFO: Good bye!

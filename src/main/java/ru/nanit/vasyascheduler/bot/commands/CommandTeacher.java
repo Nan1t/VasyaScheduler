@@ -15,6 +15,7 @@ import ru.nanit.vasyascheduler.services.SubscribesManager;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
 public class CommandTeacher implements CommandHandler {
@@ -89,7 +90,7 @@ public class CommandTeacher implements CommandHandler {
 
         if(args.length == 3){
             String firstName = args[1].toUpperCase();
-            String lastName = args[0];
+            String lastName = lastNameToUppercase(args[0]);
             String patronymic = args[2].toUpperCase();
             Person teacher = new Person(firstName, lastName, patronymic);
 
@@ -130,6 +131,12 @@ public class CommandTeacher implements CommandHandler {
         }
 
         return help;
+    }
+
+    private String lastNameToUppercase(String str){
+        char[] arr = str.toCharArray();
+        char firstChar = Character.toUpperCase(arr[0]);
+        return firstChar + String.valueOf(Arrays.copyOfRange(arr, 1, str.length()));
     }
 
 }

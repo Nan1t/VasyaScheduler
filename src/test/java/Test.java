@@ -1,14 +1,19 @@
 import ru.nanit.vasyascheduler.api.util.HashUtil;
 
 import java.net.URL;
+import java.util.Arrays;
 
 public class Test {
 
-    public static void main(String[] args) throws Exception {
-        int col = 0;
+    @org.junit.Test
+    public void test(){
+        String str = "сабанов";
+        System.err.println(lastNameToUppercase(str));
+    }
 
-        while (col != 10){
-            System.out.println(++col);
-        }
+    private String lastNameToUppercase(String str){
+        char[] arr = str.toCharArray();
+        char firstChar = Character.toUpperCase(arr[0]);
+        return firstChar + String.valueOf(Arrays.copyOfRange(arr, 1, str.length()));
     }
 }

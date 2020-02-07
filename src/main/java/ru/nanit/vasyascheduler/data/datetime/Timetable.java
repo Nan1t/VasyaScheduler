@@ -44,7 +44,7 @@ public class Timetable {
         }
     }
 
-    public static class TimeInterval{
+    public static class TimeInterval {
 
         private long begin, end;
 

@@ -170,8 +170,8 @@ public class VasyaScheduler {
     }
 
     private void registerBots(){
-        Bot telegram = new BotTelegram(conf.get().getNode("messengers", "telegram", "botName").getString(),
-                conf.get().getNode("messengers", "telegram", "token").getString(), commandManager);
+        Bot telegram = new BotTelegram(conf.get().getNode("telegram", "botName").getString(),
+                conf.get().getNode("telegram", "token").getString(), commandManager);
 
         BotManager.registerBot(Bot.Type.TELEGRAM, telegram);
 
