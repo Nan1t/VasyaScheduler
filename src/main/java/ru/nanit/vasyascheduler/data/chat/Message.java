@@ -5,12 +5,15 @@ import java.util.HashSet;
 
 public class Message {
 
-    public static final String NULL_VALUE = "NULL";
+    private static final String NULL_VALUE = "NULL";
 
     private String chatId = NULL_VALUE;
     private String author = NULL_VALUE;
     private String message;
     private Collection<Media> media;
+    private Keyboard keyboard;
+    private boolean editMessage;
+    private boolean removeLastId;
 
     public Message(){ }
 
@@ -18,7 +21,23 @@ public class Message {
         this.message = message;
     }
 
-    public String getChatId(){
+    public boolean isEditMessage() {
+        return editMessage;
+    }
+
+    public boolean isRemoveLastId() {
+        return removeLastId;
+    }
+
+    public void setRemoveLastId(boolean removeLastId) {
+        this.removeLastId = removeLastId;
+    }
+
+    public void setEditMessage(boolean editMessage) {
+        this.editMessage = editMessage;
+    }
+
+    public String getChatId() {
         return chatId;
     }
 
@@ -52,5 +71,13 @@ public class Message {
         }
 
         this.media.add(media);
+    }
+
+    public Keyboard getKeyboard(){
+        return keyboard;
+    }
+
+    public void setKeyboard(Keyboard keyboard){
+        this.keyboard = keyboard;
     }
 }

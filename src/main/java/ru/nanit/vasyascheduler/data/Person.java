@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 /**
  * Represents person full name as unique object able to be compared
  */
-public class Person {
+public class Person implements Comparable {
 
     private String firstName, lastName, patronymic;
 
@@ -72,5 +72,14 @@ public class Person {
     @Override
     public int hashCode(){
         return Objects.hash(firstName, lastName, patronymic);
+    }
+
+    @Override
+    public int compareTo(Object obj) {
+        if(obj instanceof Person){
+            return getLastNameLetter() - ((Person) obj).getLastNameLetter();
+        }
+
+        return 0;
     }
 }

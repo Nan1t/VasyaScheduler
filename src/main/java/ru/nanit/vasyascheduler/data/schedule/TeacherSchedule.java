@@ -7,16 +7,15 @@ import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializer;
 import ru.nanit.vasyascheduler.api.storage.Language;
 import ru.nanit.vasyascheduler.api.util.Logger;
-import ru.nanit.vasyascheduler.api.util.TimeUtil;
 import ru.nanit.vasyascheduler.data.Person;
 import ru.nanit.vasyascheduler.data.datetime.Days;
-import ru.nanit.vasyascheduler.data.datetime.Timetable;
 import ru.nanit.vasyascheduler.services.conversion.XlsToImage;
 
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TeacherSchedule extends Schedule {
 
@@ -26,6 +25,8 @@ public class TeacherSchedule extends Schedule {
 
     private String dateTime;
     private Map<Person, Week> weeks; // Work week for every teacher <Teacher name, Work week>
+    private List<Person> teachers;
+    private int classesCount;
 
     private TeacherSchedule(){
         this(null, 0);
@@ -49,6 +50,10 @@ public class TeacherSchedule extends Schedule {
         return weeks;
     }
 
+    public List<Person> getTeachers(){
+        return teachers;
+    }
+
     public Builder getBuilder(){
         return builder;
     }
@@ -64,7 +69,6 @@ public class TeacherSchedule extends Schedule {
         }
 
         weeks = new HashMap<>();
-        int classesCount = Timetable.getClassCount();
 
         try (InputStream stream = getLink().openStream()) {
             Workbook workbook = new Workbook(stream);
@@ -110,6 +114,8 @@ public class TeacherSchedule extends Schedule {
                 weeks.put(Person.parseFromString(teacher), week);
                 row++;
             }
+
+            teachers = weeks.keySet().stream().sorted().collect(Collectors.toList());
         }
     }
 
@@ -158,8 +164,8 @@ public class TeacherSchedule extends Schedule {
                 Cells cells = sheet.getCells();
 
                 buildHeader(cells, lang, teacher);
-                setHeaderBorders(cells);
-                buildClasses(cells, teacher, week, students);
+                //setHeaderBorders(cells);
+                buildClasses(lang, cells, teacher, week, students);
 
                 try{
                     sheet.autoFitRows();
@@ -172,18 +178,6 @@ public class TeacherSchedule extends Schedule {
 
             Logger.warn("Attempt to get schedule of unregistered teacher " + teacher + ". Attempt denied");
             return null;
-        }
-
-        private void setHeaderBorders(Cells cells){
-            for (int col = 0; col <= cells.getMaxDataColumn(); col++){
-                Cell cell = cells.get(1, col);
-                Style style = cell.getStyle();
-                style.setBorder(BorderType.LEFT_BORDER, CellBorderType.MEDIUM, Color.getBlack());
-                style.setBorder(BorderType.TOP_BORDER, CellBorderType.MEDIUM, Color.getBlack());
-                style.setBorder(BorderType.RIGHT_BORDER, CellBorderType.MEDIUM, Color.getBlack());
-                style.setBorder(BorderType.BOTTOM_BORDER, CellBorderType.MEDIUM, Color.getBlack());
-                cell.setStyle(style);
-            }
         }
 
         private void buildHeader(Cells cells, Language lang, Person teacher){
@@ -228,10 +222,14 @@ public class TeacherSchedule extends Schedule {
             cells.merge(0, 0, 1, 4);
             cells.merge(1, 0, 1, 4);
 
-            borderRow(cells, 2);
+            setOutlineBorder(teacherCell, true);
+            setOutlineBorder(day, true);
+            setOutlineBorder(classNum, true);
+            setOutlineBorder(time, true);
+            setOutlineBorder(classes, true);
         }
 
-        private void buildClasses(Cells cells, Person teacher, TeacherSchedule.Week week, Map<String, StudentSchedule> students){
+        private void buildClasses(Language lang, Cells cells, Person teacher, TeacherSchedule.Week week, Map<String, StudentSchedule> students){
             int day = 1;
             int dayRow = 3;
             int classRow = 3;
@@ -243,7 +241,7 @@ public class TeacherSchedule extends Schedule {
                 int rows = 0; // Count of rows with class data
 
                 // Iterate every class number in day
-                for (int classNum = 1; classNum <= Timetable.getClassCount(); classNum++){
+                for (int classNum = 1; classNum <= classesCount; classNum++){
                     List<String> courses = teacherDay.getCourses(classNum);
 
                     if(courses != null && !courses.isEmpty()){
@@ -251,13 +249,17 @@ public class TeacherSchedule extends Schedule {
                         Cell timeCell = cells.get(classRow, 2);
 
                         classNumCell.setValue(classNum);
-                        timeCell.setValue(TimeUtil.timeFromMillis(Timetable.getInterval(classNum).getBegin()));
 
-                        setDefStyle(classNumCell);
-                        setDefStyle(timeCell);
+                        setCentered(classNumCell);
+                        setDefaultFont(classNumCell);
+                        setCentered(timeCell);
+                        setDefaultFont(timeCell);
 
                         cells.merge(classRow, 1, 4, 1); // Merge class num cell
                         cells.merge(classRow, 2, 4, 1); // Merge time cell
+
+                        setOutlineBorder(classNumCell, true);
+                        setOutlineBorder(timeCell, true);
 
                         classRow += 4;
                         addRow = false;
@@ -267,15 +269,27 @@ public class TeacherSchedule extends Schedule {
                         Cell groupsCell = cells.get(classNumCell.getRow()+2, 3);
                         Cell audCell = cells.get(classNumCell.getRow()+3, 3);
 
-                        setClassStyle(nameCell, true);
-                        setClassStyle(typeCell);
-                        setClassStyle(groupsCell);
-                        setClassStyle(audCell);
+                        setCentered(nameCell);
+                        setCentered(typeCell);
+                        setCentered(groupsCell);
+                        setCentered(audCell);
+
+                        setDefaultFont(nameCell);
+                        setDefaultFont(typeCell);
+                        setDefaultFont(groupsCell);
+                        setDefaultFont(audCell);
+
+                        setBorder(nameCell, BorderType.RIGHT_BORDER, true);
+                        setBorder(typeCell, BorderType.RIGHT_BORDER, true);
+                        setBorder(groupsCell, BorderType.RIGHT_BORDER, true);
+                        setBorder(audCell, BorderType.RIGHT_BORDER, true);
 
                         cells.setRowHeightInch(classNumCell.getRow(), 0.26d);
                         cells.setRowHeightInch(classNumCell.getRow()+1, 0.26d);
                         cells.setRowHeightInch(classNumCell.getRow()+2, 0.26d);
                         cells.setRowHeightInch(classNumCell.getRow()+3, 0.26d);
+
+                        boolean setTime = false;
 
                         for (String course : courses){
                             StudentSchedule schedule = students.get(course);
@@ -283,33 +297,35 @@ public class TeacherSchedule extends Schedule {
                                 StudentSchedule.Day studentDay = schedule.getDay(day);
                                 if(studentDay != null){
                                     StudentSchedule.Class clazz = studentDay.getClazz(classNum, teacher);
+                                    if(!setTime){
+                                        timeCell.setValue(studentDay.getClassTime(classNum));
+                                        setTime = true;
+                                    }
                                     if(clazz != null){
                                         if(nameCell.getType() == 3 && audCell.getType() == 3){
                                             nameCell.setValue(clazz.getName());
                                             typeCell.setValue(clazz.getType());
                                             groupsCell.setValue(clazz.getGroups().toString());
                                             audCell.setValue(clazz.getAudience());
-
                                             addRow = true;
                                         } else {
                                             groupsCell.setValue(groupsCell.getStringValue() + ", " + clazz.getGroups().toString());
                                         }
+                                    } else {
+                                        nameCell.setValue(String.format(lang.of("schedule.built.class.missing"), schedule.getDisplayName()));
+                                        cells.merge(nameCell.getRow(), nameCell.getColumn(), 4, 1);
+                                        addRow = true;
                                     }
                                 }
                             } else {
                                 nameCell.setValue(course);
-                                /*typeCell.setValue(course);
-                                groupsCell.setValue(course);
-                                audCell.setValue(course);*/
                                 cells.merge(nameCell.getRow(), nameCell.getColumn(), 4, 1);
                                 addRow = true;
                             }
                         }
 
                         if(addRow){
-                            Style style = audCell.getStyle();
-                            style.setBorder(BorderType.BOTTOM_BORDER, CellBorderType.THIN, Color.getBlack());
-                            audCell.setStyle(style);
+                            setBorder(audCell, BorderType.BOTTOM_BORDER);
                             rows++;
                         }
                     }
@@ -319,77 +335,86 @@ public class TeacherSchedule extends Schedule {
                     cells.merge(dayRow, 0, rows * 4, 1); // Merge day cell
                     dayRow += rows * 4;
                     dayCell.setValue(Days.getDayName(day));
-                    borderRow(cells, dayRow-1);
-                    setDefStyle(dayCell, true);
+                    setHeaderStyle(dayCell);
+                    setOutlineBorder(dayCell, true);
                 }
 
                 day++;
             }
-
-            borderCol(cells, 0);
-            borderCol(cells, 1);
-            borderCol(cells, 2);
-            borderCol(cells, 3);
-            borderCol(cells, 4);
         }
 
-        private void borderRow(Cells cells, int cellRow){
-            borderRow(cells, cellRow, CellBorderType.MEDIUM);
+        private void setHeaderStyle(Cell cell){
+            Style style = cell.getStyle();
+            style.getFont().setBold(true);
+            style.getFont().setSize(18);
+            style.setHorizontalAlignment(TextAlignmentType.CENTER);
+            style.setVerticalAlignment(TextAlignmentType.CENTER);
+            cell.setStyle(style);
         }
 
-        private void borderRow(Cells cells, int cellRow, int type){
-            int maxCol = cells.getMaxDataColumn();
-
-            for (int i = 0; i <= maxCol; i++){
-                Cell cell = cells.get(cellRow, i);
-                Style style = cell.getStyle();
-                style.setBorder(BorderType.BOTTOM_BORDER, type, Color.getBlack());
-                cell.setStyle(style);
-            }
+        private void setCentered(Cell cell){
+            Style style = cell.getStyle();
+            style.setHorizontalAlignment(TextAlignmentType.CENTER);
+            style.setVerticalAlignment(TextAlignmentType.CENTER);
+            cell.setStyle(style);
         }
 
-        private void borderCol(Cells cells, int cellCol){
-            borderCol(cells, cellCol, CellBorderType.MEDIUM);
-        }
-
-        private void borderCol(Cells cells, int cellCol, int type){
-            int maxRow = cells.getMaxDataRow();
-
-            for (int i = 1; i <= maxRow; i++){
-                Cell cell = cells.get(i, cellCol);
-                Style style = cell.getStyle();
-                style.setBorder(BorderType.LEFT_BORDER, type, Color.getBlack());
-                cell.setStyle(style);
-            }
-        }
-
-        private void setDefStyle(Cell cell){
-            setDefStyle(cell, false);
-        }
-
-        private void setDefStyle(Cell cell, boolean bold){
+        private void setDefaultFont(Cell cell){
             Style style = cell.getStyle();
             style.getFont().setSize(16);
-            style.getFont().setBold(bold);
-            style.setHorizontalAlignment(TextAlignmentType.CENTER);
-            style.setVerticalAlignment(TextAlignmentType.CENTER);
-            style.setBorder(BorderType.TOP_BORDER, CellBorderType.THIN, Color.getBlack());
-            style.setBorder(BorderType.BOTTOM_BORDER, CellBorderType.THIN, Color.getBlack());
             cell.setStyle(style);
         }
 
-        private void setClassStyle(Cell cell){
-            setClassStyle(cell, false);
+        private void setBorder(Cell cell, int type){
+            setBorder(cell, type, false);
         }
 
-        private void setClassStyle(Cell cell, boolean bold){
+        private void setBorder(Cell cell, int type, boolean bold){
             Style style = cell.getStyle();
-            style.getFont().setSize(14);
-            style.getFont().setBold(bold);
-            style.setTextWrapped(true);
-            style.setHorizontalAlignment(TextAlignmentType.CENTER);
-            style.setVerticalAlignment(TextAlignmentType.CENTER);
-            cell.setStyle(style);
+            Range range = cell.getMergedRange();
+
+            style.setBorder(type, bold ? CellBorderType.MEDIUM : CellBorderType.THIN, Color.getBlack());
+
+            if(range != null){
+                range.setStyle(style);
+            } else {
+                cell.setStyle(style);
+            }
+        }
+
+        private void setOutlineBorder(Cell cell, boolean bold){
+            Range range = cell.getMergedRange();
+
+            if(range == null){
+                Style style = cell.getStyle();
+                style.setBorder(BorderType.LEFT_BORDER,
+                        bold ? CellBorderType.MEDIUM : CellBorderType.THIN,
+                        Color.getBlack());
+                style.setBorder(BorderType.TOP_BORDER,
+                        bold ? CellBorderType.MEDIUM : CellBorderType.THIN,
+                        Color.getBlack());
+                style.setBorder(BorderType.RIGHT_BORDER,
+                        bold ? CellBorderType.MEDIUM : CellBorderType.THIN,
+                        Color.getBlack());
+                style.setBorder(BorderType.BOTTOM_BORDER,
+                        bold ? CellBorderType.MEDIUM : CellBorderType.THIN,
+                        Color.getBlack());
+                cell.setStyle(style);
+                return;
+            }
+
+            range.setOutlineBorder(BorderType.LEFT_BORDER,
+                    bold ? CellBorderType.MEDIUM : CellBorderType.THIN,
+                    Color.getBlack());
+            range.setOutlineBorder(BorderType.TOP_BORDER,
+                    bold ? CellBorderType.MEDIUM : CellBorderType.THIN,
+                    Color.getBlack());
+            range.setOutlineBorder(BorderType.RIGHT_BORDER,
+                    bold ? CellBorderType.MEDIUM : CellBorderType.THIN,
+                    Color.getBlack());
+            range.setOutlineBorder(BorderType.BOTTOM_BORDER,
+                    bold ? CellBorderType.MEDIUM : CellBorderType.THIN,
+                    Color.getBlack());
         }
     }
 
@@ -411,6 +436,7 @@ public class TeacherSchedule extends Schedule {
             schedule.setLink(node.getNode("link").getString());
             schedule.setSheet(node.getNode("sheet").getInt());
             schedule.matches = getMatches(node);
+            schedule.classesCount = node.getNode("classes").getInt();
 
             ParseData parseData = new ParseData();
             parseData.subjectPos = new SheetPoint(node.getNode("parseData", "subject", "col").getInt(),

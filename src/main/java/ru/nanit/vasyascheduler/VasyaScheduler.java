@@ -17,7 +17,6 @@ import ru.nanit.vasyascheduler.bot.console.CommandStats;
 import ru.nanit.vasyascheduler.bot.console.CommandStop;
 import ru.nanit.vasyascheduler.bot.types.BotTelegram;
 import ru.nanit.vasyascheduler.data.datetime.Days;
-import ru.nanit.vasyascheduler.data.datetime.Timetable;
 import ru.nanit.vasyascheduler.data.schedule.ConsultationSchedule;
 import ru.nanit.vasyascheduler.data.schedule.StudentSchedule;
 import ru.nanit.vasyascheduler.data.schedule.TeacherSchedule;
@@ -86,7 +85,6 @@ public class VasyaScheduler {
         Configuration scheduleConf = new Configuration("schedule.conf", confFolder, this);
 
         FileUtil.setRootPath(root);
-        Timetable.parse(new Configuration("timetable.conf", confFolder, this));
         Days.parse(scheduleConf);
         Patterns.setTeacherDefault(conf.get().getNode("expressions", "teacherDefault").getString());
         Patterns.setTeacherDefaultSeparate(conf.get().getNode("expressions", "teacherDefaultGroups").getString());
@@ -113,6 +111,14 @@ public class VasyaScheduler {
 
         scheduleTimer = new ScheduleTimer(conf, lang, properties, scheduleManager, subscribesManager);
         scheduleTimer.start();
+
+        /*Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try{
+                VasyaScheduler.this.stop();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }));*/
 
         Logger.info("Done! For help, type \"help\" or \"?\"");
     }
@@ -180,10 +186,20 @@ public class VasyaScheduler {
 
     private void registerCommands(){
         commandManager = new CommandManager();
+
         commandManager.registerCommand(new CommandHelp(lang), "help", "start", "h");
-        commandManager.registerCommand(new CommandTeacher(lang, subscribesManager, scheduleManager), "teacher", "t");
+
+        commandManager.registerCommand(new CommandTeacherSubscribe(lang, subscribesManager, scheduleManager), "teachersubscribe", "ts");
+        commandManager.registerCommand(new CommandTeacher(lang, subscribesManager, scheduleManager), "teacher",  "t");
+        commandManager.registerCommand(new CommandTeacherDeny(lang, subscribesManager), "teacherdeny", "tdeny");
+
         commandManager.registerCommand(new CommandConsultations(lang, subscribesManager, scheduleManager), "consultations", "consultation", "c");
+        commandManager.registerCommand(new CommandConsultationsAll(lang, scheduleManager), "consultationsall", "consall");
+
+        commandManager.registerCommand(new CommandStudentsSubscribe(lang, subscribesManager, scheduleManager), "studentsubscribe", "ss");
         commandManager.registerCommand(new CommandStudents(lang, subscribesManager, scheduleManager), "students", "student", "s");
+        commandManager.registerCommand(new CommandStudentsDeny(lang, subscribesManager), "studentsdeny", "sdeny");
+
         commandManager.registerCommand(new CommandPoints(lang, pointsManager, subscribesManager), "points", "point", "p");
     }
 

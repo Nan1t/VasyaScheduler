@@ -5,18 +5,26 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.*;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.media.*;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.nanit.vasyascheduler.api.util.Logger;
 import ru.nanit.vasyascheduler.bot.CommandSender;
+import ru.nanit.vasyascheduler.data.chat.ChatButton;
 import ru.nanit.vasyascheduler.services.CommandManager;
 import ru.nanit.vasyascheduler.bot.Bot;
 import ru.nanit.vasyascheduler.data.chat.Media;
 import ru.nanit.vasyascheduler.data.chat.Message;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class BotTelegram implements Bot {
@@ -26,6 +34,8 @@ public class BotTelegram implements Bot {
 
     private CommandManager cmdManager;
     private MessageHandler handler;
+
+    private Map<String, Integer> lastIds = new HashMap<>();
 
     public BotTelegram(String name, String token, CommandManager cmdManager){
         this.name = name;
@@ -56,13 +66,59 @@ public class BotTelegram implements Bot {
     @Override
     public void sendMessage(Message message) {
         try {
+            if(message.isEditMessage() && lastIds.containsKey(message.getChatId())){
+                EditMessageText text = new EditMessageText();
+                text.setChatId(message.getChatId());
+                text.setMessageId(lastIds.get(message.getChatId()));
+                text.setText(message.getMessage());
+
+                if(message.getKeyboard() != null){
+                    InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+                    List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
+
+                    for (List<ChatButton> row : message.getKeyboard().getButtons()){
+                        List<InlineKeyboardButton> line = new ArrayList<>();
+                        for (ChatButton btn : row){
+                            line.add(new InlineKeyboardButton().setText(btn.getText()).setCallbackData(btn.getCommand()));
+                        }
+                        buttons.add(line);
+                    }
+
+                    markup.setKeyboard(buttons);
+                    text.setReplyMarkup(markup);
+                }
+
+                handler.execute(text);
+                return;
+            }
+
             if(message.getMessage() != null){
                 SendMessage sendMessage = new SendMessage().setChatId(message.getChatId());
                 sendMessage.setText(message.getMessage());
-                handler.execute(sendMessage);
+
+                if(message.getKeyboard() != null){
+                    InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
+                    List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
+
+                    for (List<ChatButton> row : message.getKeyboard().getButtons()){
+                        List<InlineKeyboardButton> line = new ArrayList<>();
+                        for (ChatButton btn : row){
+                            line.add(new InlineKeyboardButton().setText(btn.getText()).setCallbackData(btn.getCommand()));
+                        }
+                        buttons.add(line);
+                    }
+
+                    markup.setKeyboard(buttons);
+                    sendMessage.setReplyMarkup(markup);
+                }
+
+                org.telegram.telegrambots.meta.api.objects.Message resp = handler.execute(sendMessage);
+                lastIds.put(resp.getChatId().toString(), resp.getMessageId());
             }
 
             if(message.getMedia() != null){
+                lastIds.remove(message.getChatId());
+
                 if(message.getMedia().size() > 1){
                     SendMediaGroup group = new SendMediaGroup().setChatId(message.getChatId());
                     List<InputMedia> list = new ArrayList<>();
@@ -83,6 +139,7 @@ public class BotTelegram implements Bot {
 
                 for (Media media : message.getMedia()){
                     PartialBotApiMethod method = getSendMethod(media);
+                    org.telegram.telegrambots.meta.api.objects.Message resp = null;
 
                     if(method instanceof SendPhoto){
                         ((SendPhoto) method).setChatId(message.getChatId());
@@ -153,27 +210,35 @@ public class BotTelegram implements Bot {
         @Override
         public void onUpdateReceived(Update update) {
             if(update.hasMessage() && update.getMessage().hasText()) {
-                String[] arr = update.getMessage().getText().split("@");
-                String command = arr[0];
+                executeCommand(update.getMessage().getText(), update.getMessage().getChatId().toString());
+            }
 
-                if(arr.length > 1){
-                    if(!arr[1].equalsIgnoreCase(this.name)){
-                        return;
+            if(update.hasCallbackQuery()){
+                executeCommand(update.getCallbackQuery().getData(), update.getCallbackQuery().getMessage().getChatId().toString());
+            }
+        }
+
+        private void executeCommand(String message, String chatid){
+            String[] arr = message.split("@");
+            String command = arr[0];
+
+            if(arr.length > 1){
+                if(!arr[1].equalsIgnoreCase(this.name)){
+                    return;
+                }
+            }
+
+            if(command.startsWith("/")) {
+                CommandSender sender = new CommandSender(chatid, Type.TELEGRAM);
+                CompletableFuture<Message> future = CompletableFuture.supplyAsync(()->
+                        cmdManager.executeCommand(sender, message.substring(1)));
+
+                future.thenAcceptAsync((response)->{
+                    if(response != null){
+                        response.setChatId(chatid);
+                        sendMessage(response);
                     }
-                }
-
-                if(command.startsWith("/")) {
-                    CommandSender sender = new CommandSender(update.getMessage().getChatId().toString(), Type.TELEGRAM);
-                    CompletableFuture<Message> future = CompletableFuture.supplyAsync(()->
-                            cmdManager.executeCommand(sender, update.getMessage().getText().substring(1)));
-
-                    future.thenAcceptAsync((response)->{
-                        if(response != null){
-                            response.setChatId(update.getMessage().getChatId().toString());
-                            sendMessage(response);
-                        }
-                    });
-                }
+                });
             }
         }
 

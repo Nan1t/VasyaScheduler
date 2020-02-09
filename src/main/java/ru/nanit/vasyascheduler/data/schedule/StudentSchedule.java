@@ -80,6 +80,7 @@ public class StudentSchedule extends Schedule {
 
         Range dayCellRange = dayCell.getMergedRange();
         int maxDataCol = cells.getMaxDataColumn();
+        int classTimeCellCol = parseData.getClassNumPos().getColumn() + 1;
 
         // Iterate every day in table
         while (dayCell.getType() != CELL_TYPE_NULL) {
@@ -87,7 +88,7 @@ public class StudentSchedule extends Schedule {
             int dayNum = Days.getDayNumber(dayName);
 
             if (dayNum == -1) {
-                Logger.error("Error. Day " + dayName + " is not define in configuration. Check schedule.conf to fix it");
+                Logger.error("Error. Day " + dayName + " is not defined in configuration. Check schedule.conf to fix it");
                 dayCell = getNextDayCell(cells, dayCell, dayCellRange);
                 dayCellRange = dayCell.getMergedRange();
                 continue;
@@ -95,6 +96,7 @@ public class StudentSchedule extends Schedule {
 
             Day day = new Day();
             Cell classNumCell = cells.get(dayCellRange.getFirstRow(), parseData.getClassNumPos().getColumn());
+            Cell classTimeCell = cells.get(dayCellRange.getFirstRow(), classTimeCellCol);
             int rowSum = 0;
 
             // Iterate every classes row in day
@@ -102,6 +104,8 @@ public class StudentSchedule extends Schedule {
                 int classCol = parseData.getGroupPos().getColumn();
                 int classNum = classNumCell.getIntValue();
                 Cell classCell = cells.get(classNumCell.getRow(), classCol);
+
+                day.setClassTime(classNum, classTimeCell.getStringValue());
 
                 // Iterate every class in classes row
                 while (classCol <= maxDataCol){
@@ -122,6 +126,7 @@ public class StudentSchedule extends Schedule {
 
                 rowSum += classNumCell.getMergedRange().getRowCount();
                 classNumCell = cells.get(dayCellRange.getFirstRow() + rowSum, parseData.getClassNumPos().getColumn());
+                classTimeCell = cells.get(dayCellRange.getFirstRow() + rowSum, classTimeCellCol);
 
                 if(classNumCell.getType() == CELL_TYPE_NULL){
                     break;
@@ -215,10 +220,10 @@ public class StudentSchedule extends Schedule {
         return cells.get(curr.getRow() + dayRowHeight, parseData.getDayPos().getColumn());
     }
 
-    public class Day{
+    public class Day {
 
+        private Map<Integer, String> classTime = new HashMap<>();
         private Map<Integer, Map<Person, Class>> classes = new HashMap<>(); // <ClassNum, <Teacher, ClassObj>>
-
 
         public Class getClazz(int num, Person teacher){
             Map<Person, Class> map = classes.get(num);
@@ -230,6 +235,14 @@ public class StudentSchedule extends Schedule {
 
         public Map<Integer, Map<Person, Class>> getClasses(){
             return classes;
+        }
+
+        public String getClassTime(int num){
+            return classTime.get(num);
+        }
+
+        public void setClassTime(int num, String time){
+            classTime.put(num, time);
         }
 
         public void addClass(int num, Class clazz){
