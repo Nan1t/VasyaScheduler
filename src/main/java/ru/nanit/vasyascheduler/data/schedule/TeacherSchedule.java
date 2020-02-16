@@ -164,11 +164,12 @@ public class TeacherSchedule extends Schedule {
                 Cells cells = sheet.getCells();
 
                 buildHeader(cells, lang, teacher);
-                //setHeaderBorders(cells);
                 buildClasses(lang, cells, teacher, week, students);
 
                 try{
-                    sheet.autoFitRows();
+                    AutoFitterOptions options = new AutoFitterOptions();
+                    options.setAutoFitMergedCells(true);
+                    sheet.autoFitRows(options);
                 } catch (Exception e){
                     Logger.error("Error while build workbook: ", e);
                 }
@@ -356,6 +357,7 @@ public class TeacherSchedule extends Schedule {
             Style style = cell.getStyle();
             style.setHorizontalAlignment(TextAlignmentType.CENTER);
             style.setVerticalAlignment(TextAlignmentType.CENTER);
+            style.setTextWrapped(true);
             cell.setStyle(style);
         }
 

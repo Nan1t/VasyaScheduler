@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.methods.send.*;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.media.*;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
@@ -210,15 +211,21 @@ public class BotTelegram implements Bot {
         @Override
         public void onUpdateReceived(Update update) {
             if(update.hasMessage() && update.getMessage().hasText()) {
-                executeCommand(update.getMessage().getText(), update.getMessage().getChatId().toString());
+                executeCommand(
+                        update.getMessage().getText(),
+                        update.getMessage().getChatId().toString(),
+                        buildUser(update.getMessage().getFrom()));
             }
 
             if(update.hasCallbackQuery()){
-                executeCommand(update.getCallbackQuery().getData(), update.getCallbackQuery().getMessage().getChatId().toString());
+                executeCommand(
+                        update.getCallbackQuery().getData(),
+                        update.getCallbackQuery().getMessage().getChatId().toString(),
+                        buildUser(update.getCallbackQuery().getFrom()));
             }
         }
 
-        private void executeCommand(String message, String chatid){
+        private void executeCommand(String message, String chatid, String username){
             String[] arr = message.split("@");
             String command = arr[0];
 
@@ -230,6 +237,7 @@ public class BotTelegram implements Bot {
 
             if(command.startsWith("/")) {
                 CommandSender sender = new CommandSender(chatid, Type.TELEGRAM);
+                sender.setUserName(username);
                 CompletableFuture<Message> future = CompletableFuture.supplyAsync(()->
                         cmdManager.executeCommand(sender, message.substring(1)));
 
@@ -240,6 +248,11 @@ public class BotTelegram implements Bot {
                     }
                 });
             }
+        }
+
+        private String buildUser(User user){
+            if(user != null) return "[" + user.getId() + "@" + user.getUserName() + "](" + user.getFirstName() + " " + user.getLastName() + ")";
+            return "NULL";
         }
 
         @Override

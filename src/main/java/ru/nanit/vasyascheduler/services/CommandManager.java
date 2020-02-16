@@ -24,7 +24,7 @@ public final class CommandManager {
     }
 
     public Message executeCommand(CommandSender sender, String line){
-        Logger.info("[" + sender.getBotType() + "] User " + sender.getId() + " entered command '" + line + "'");
+        Logger.info("[" + sender.getBotType() + "] User " + sender.getUserName() + " entered command '" + line + "'");
 
         String[] arr = line.split(" ");
 
