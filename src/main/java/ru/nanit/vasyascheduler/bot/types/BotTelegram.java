@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BotTelegram implements Bot {
 
@@ -211,10 +212,12 @@ public class BotTelegram implements Bot {
         @Override
         public void onUpdateReceived(Update update) {
             if(update.hasMessage() && update.getMessage().hasText()) {
+                lastIds.remove(update.getMessage().getChatId().toString());
                 executeCommand(
                         update.getMessage().getText(),
                         update.getMessage().getChatId().toString(),
                         buildUser(update.getMessage().getFrom()));
+
             }
 
             if(update.hasCallbackQuery()){

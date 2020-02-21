@@ -2,13 +2,11 @@ package ru.nanit.vasyascheduler.bot.commands;
 
 import ru.nanit.vasyascheduler.api.storage.Language;
 import ru.nanit.vasyascheduler.api.util.ImageUtil;
+import ru.nanit.vasyascheduler.bot.CommandHandler;
 import ru.nanit.vasyascheduler.bot.CommandSender;
-import ru.nanit.vasyascheduler.data.Person;
 import ru.nanit.vasyascheduler.data.chat.Media;
 import ru.nanit.vasyascheduler.data.chat.Message;
-import ru.nanit.vasyascheduler.data.user.SubscriberTeacher;
 import ru.nanit.vasyascheduler.services.ScheduleManager;
-import ru.nanit.vasyascheduler.services.SubscribesManager;
 
 import java.awt.image.BufferedImage;
 

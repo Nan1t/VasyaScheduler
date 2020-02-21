@@ -3,6 +3,7 @@ package ru.nanit.vasyascheduler.bot.commands;
 import ru.nanit.vasyascheduler.api.storage.Language;
 import ru.nanit.vasyascheduler.api.util.ImageUtil;
 import ru.nanit.vasyascheduler.api.util.Logger;
+import ru.nanit.vasyascheduler.bot.CommandHandler;
 import ru.nanit.vasyascheduler.bot.CommandSender;
 import ru.nanit.vasyascheduler.data.chat.Media;
 import ru.nanit.vasyascheduler.data.chat.Message;

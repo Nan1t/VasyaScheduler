@@ -2,7 +2,7 @@ package ru.nanit.vasyascheduler.services;
 
 import ru.nanit.vasyascheduler.api.util.Logger;
 import ru.nanit.vasyascheduler.bot.CommandSender;
-import ru.nanit.vasyascheduler.bot.commands.CommandHandler;
+import ru.nanit.vasyascheduler.bot.CommandHandler;
 import ru.nanit.vasyascheduler.data.chat.Message;
 
 import java.util.Arrays;

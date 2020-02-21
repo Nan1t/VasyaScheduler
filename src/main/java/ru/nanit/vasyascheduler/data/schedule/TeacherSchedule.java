@@ -15,6 +15,7 @@ import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class TeacherSchedule extends Schedule {
@@ -68,7 +69,7 @@ public class TeacherSchedule extends Schedule {
             weeks.clear();
         }
 
-        weeks = new HashMap<>();
+        weeks = new ConcurrentHashMap<>();
 
         try (InputStream stream = getLink().openStream()) {
             Workbook workbook = new Workbook(stream);

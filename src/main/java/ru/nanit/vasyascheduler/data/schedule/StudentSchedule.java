@@ -12,14 +12,16 @@ import ru.nanit.vasyascheduler.data.datetime.Days;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 
 public class StudentSchedule extends Schedule {
 
     private String name;
     private String displayName;
-    private ParseData parseData;;
+    private ParseData parseData;
     private Map<Integer, Day> days;
+    private Map<String, Map<Integer, Day>> auds;
 
     private StudentSchedule(String name){
         this.name = name;
@@ -46,6 +48,14 @@ public class StudentSchedule extends Schedule {
         return days.getOrDefault(num, null);
     }
 
+    public Map<Integer, Day> getAudDays(String aud){
+        return auds.get(aud);
+    }
+
+    public Collection<String> getAuds(){
+        return auds.keySet();
+    }
+
     public void printAll(){
         for (Map.Entry<Integer, Day> day : days.entrySet()){
             System.out.println(Days.getDayName(day.getKey()));
@@ -66,7 +76,12 @@ public class StudentSchedule extends Schedule {
             days.clear();
         }
 
-        days = new HashMap<>();
+        if(auds != null){
+            auds.clear();
+        }
+
+        days = new ConcurrentHashMap<>();
+        auds = new ConcurrentHashMap<>();
 
         parseImage();
 
@@ -139,6 +154,8 @@ public class StudentSchedule extends Schedule {
         }
 
         stream.close();
+        parseAuds();
+        //printAuds();
     }
 
     private void parseGroups(Day day, int classNum, Cells cells, Cell classCell, Cell classType, Cell teacher, Cell audience){
@@ -174,6 +191,24 @@ public class StudentSchedule extends Schedule {
 
                 c.addGroup(groups);
                 day.addClass(classNum, c);
+            }
+        }
+    }
+
+    private void parseAuds(){
+        for(Map.Entry<Integer, Day> entry : days.entrySet()){
+            for (Map.Entry<Integer, Map<Person, Class>> personEntry : entry.getValue().getClasses().entrySet()){
+                for (Map.Entry<Person, Class> classEntry : personEntry.getValue().entrySet()){
+                    String aud = classEntry.getValue().getAudience();
+                    Map<Integer, Day> days = auds.computeIfAbsent(aud, v -> new ConcurrentHashMap<>());
+                    Day day = days.computeIfAbsent(entry.getKey(), v -> {
+                        Day newDay = new Day();
+                        newDay.classTime = entry.getValue().classTime;
+                        return newDay;
+                    });
+
+                    day.addAudClass(personEntry.getKey(), classEntry.getValue());
+                }
             }
         }
     }
@@ -224,6 +259,7 @@ public class StudentSchedule extends Schedule {
 
         private Map<Integer, String> classTime = new HashMap<>();
         private Map<Integer, Map<Person, Class>> classes = new HashMap<>(); // <ClassNum, <Teacher, ClassObj>>
+        private Map<Integer, Set<Class>> audClass = new HashMap<>();
 
         public Class getClazz(int num, Person teacher){
             Map<Person, Class> map = classes.get(num);
@@ -243,6 +279,16 @@ public class StudentSchedule extends Schedule {
 
         public void setClassTime(int num, String time){
             classTime.put(num, time);
+        }
+
+        public Map<Integer, Set<Class>> getAudClases(){
+            return audClass;
+        }
+
+        public void addAudClass(int num, Class clazz){
+            Set<Class> classes = audClass.computeIfAbsent(num, k -> new HashSet<>());
+            classes.add(clazz);
+            audClass.put(num, classes);
         }
 
         public void addClass(int num, Class clazz){

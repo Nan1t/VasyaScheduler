@@ -91,7 +91,7 @@ public class VasyaScheduler {
         Patterns.setTeacherInline(conf.get().getNode("expressions", "teacherInline").getString());
 
         lang = new Language("lang.conf", confFolder, this);
-        scheduleManager = new ScheduleManager(scheduleConf, properties);
+        scheduleManager = new ScheduleManager(scheduleConf, properties, lang);
         subscribesManager = new SubscribesManager(database, scheduleManager);
 
         scheduleManager.loadTeacherSchedule();
@@ -201,6 +201,8 @@ public class VasyaScheduler {
         commandManager.registerCommand(new CommandStudentsDeny(lang, subscribesManager), "studentsdeny", "sdeny");
 
         commandManager.registerCommand(new CommandPoints(lang, pointsManager, subscribesManager), "points", "point", "p");
+
+        commandManager.registerCommand(new CommandAud(scheduleManager, lang), "aud");
     }
 
     private void registerConsoleCommands(){

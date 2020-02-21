@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ConsultationSchedule extends Schedule {
 
@@ -46,7 +47,7 @@ public class ConsultationSchedule extends Schedule {
             weeks.clear();
         }
 
-        weeks = new HashMap<>();
+        weeks = new ConcurrentHashMap<>();
 
         parseImage();
 

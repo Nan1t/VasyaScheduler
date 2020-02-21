@@ -3,6 +3,7 @@ package ru.nanit.vasyascheduler.bot.commands;
 import ru.nanit.vasyascheduler.api.storage.Language;
 import ru.nanit.vasyascheduler.api.util.ImageUtil;
 import ru.nanit.vasyascheduler.api.util.Logger;
+import ru.nanit.vasyascheduler.bot.CommandHandler;
 import ru.nanit.vasyascheduler.bot.CommandSender;
 import ru.nanit.vasyascheduler.data.chat.ChatButton;
 import ru.nanit.vasyascheduler.data.chat.Keyboard;
@@ -14,8 +15,6 @@ import ru.nanit.vasyascheduler.services.BotManager;
 import ru.nanit.vasyascheduler.services.ScheduleManager;
 import ru.nanit.vasyascheduler.services.SubscribesManager;
 
-import java.awt.image.BufferedImage;
-import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 

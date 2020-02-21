@@ -1,6 +1,5 @@
-package ru.nanit.vasyascheduler.bot.commands;
+package ru.nanit.vasyascheduler.bot;
 
-import ru.nanit.vasyascheduler.bot.CommandSender;
 import ru.nanit.vasyascheduler.data.chat.Message;
 
 public interface CommandHandler {
