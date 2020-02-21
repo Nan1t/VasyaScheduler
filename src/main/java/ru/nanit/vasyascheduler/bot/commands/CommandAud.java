@@ -59,6 +59,8 @@ public class CommandAud implements CommandHandler {
                     }
                 });
 
+                response.setEditMessage(true);
+                response.setRemoveLastId(true);
                 return response;
             }
         }
