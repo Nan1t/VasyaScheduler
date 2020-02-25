@@ -22,6 +22,7 @@ import ru.nanit.vasyascheduler.data.schedule.StudentSchedule;
 import ru.nanit.vasyascheduler.data.schedule.TeacherSchedule;
 import ru.nanit.vasyascheduler.services.*;
 import ru.nanit.vasyascheduler.bot.Bot;
+import ru.nanit.vasyascheduler.web.WebPanel;
 
 import java.io.InputStream;
 import java.net.Authenticator;
@@ -45,6 +46,7 @@ public class VasyaScheduler {
     private ScheduleTimer scheduleTimer;
     private ConsoleManager consoleManager;
     private PointsManager pointsManager;
+    private WebPanel webPanel;
 
     public VasyaScheduler(Path root){
         this.root = root;
@@ -111,6 +113,8 @@ public class VasyaScheduler {
 
         scheduleTimer = new ScheduleTimer(conf, lang, properties, scheduleManager, subscribesManager);
         scheduleTimer.start();
+
+        webPanel = new WebPanel(conf);
 
         /*Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try{
