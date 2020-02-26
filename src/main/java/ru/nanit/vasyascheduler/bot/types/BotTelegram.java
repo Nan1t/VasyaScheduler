@@ -68,6 +68,8 @@ public class BotTelegram implements Bot {
     @Override
     public void sendMessage(Message message) {
         try {
+            Logger.info("[TELEGRAM] Sending message...");
+
             if(message.isEditMessage() && lastIds.containsKey(message.getChatId())){
                 EditMessageText text = new EditMessageText();
                 text.setChatId(message.getChatId());

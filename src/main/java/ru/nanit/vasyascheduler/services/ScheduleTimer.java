@@ -114,6 +114,7 @@ public final class ScheduleTimer {
                         media.setFileName("schedule.png");
                         message.addMedia(media);
                         message.setChatId(teacher.getMessengerId());
+                        message.setRemoveLastId(true);
 
                         BotManager.getBot(teacher.getBotType()).sendMessage(message);
                         Logger.info("Sent schedule to " + teacher.getTeacher() + " (user "+teacher+")");
@@ -138,6 +139,7 @@ public final class ScheduleTimer {
                         media.setFileName("consultations.png");
                         message.addMedia(media);
                         message.setChatId(teacher.getMessengerId());
+                        message.setRemoveLastId(true);
 
                         BotManager.getBot(teacher.getBotType()).sendMessage(message);
                         Logger.info("Sent consultation schedule to " + teacher.getTeacher() + " (user "+teacher+")");
@@ -162,6 +164,7 @@ public final class ScheduleTimer {
                             media.setFileName("students.png");
                             message.addMedia(media);
                             message.setChatId(student.getMessengerId());
+                            message.setRemoveLastId(true);
 
                             BotManager.getBot(student.getBotType()).sendMessage(message);
                             Logger.info("Sent students schedule to user " + student);
