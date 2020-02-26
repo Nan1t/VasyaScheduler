@@ -2,6 +2,7 @@ package ru.nanit.vasyascheduler.services.conversion;
 
 import com.aspose.cells.*;
 import com.sun.imageio.plugins.png.PNGImageReader;
+import org.apache.commons.io.IOUtils;
 import ru.nanit.vasyascheduler.api.util.Logger;
 import sun.awt.image.PNGImageDecoder;
 
@@ -28,7 +29,8 @@ public final class XlsToImage {
         IMG_OPTIONS.setOutputBlankPageWhenNothingToPrint(true);
         IMG_OPTIONS.setImageFormat(ImageFormat.getJpeg());
 
-        ImageIO.setUseCache(false);
+        //ImageIO.setUseCache(false);
+        System.setProperty("java.awt.headless", "true");
     }
 
     private Workbook workbook;
