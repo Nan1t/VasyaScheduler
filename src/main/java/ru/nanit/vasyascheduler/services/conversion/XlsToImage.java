@@ -1,14 +1,15 @@
 package ru.nanit.vasyascheduler.services.conversion;
 
 import com.aspose.cells.*;
+import com.sun.imageio.plugins.common.ImageUtil;
 import com.sun.imageio.plugins.png.PNGImageReader;
 import org.apache.commons.io.IOUtils;
-import ru.nanit.vasyascheduler.api.util.ImageUtil;
 import ru.nanit.vasyascheduler.api.util.Logger;
 import sun.awt.image.PNGImageDecoder;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.ImageOutputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
@@ -63,14 +64,7 @@ public final class XlsToImage {
                     SheetRender sr = new SheetRender(sheet, IMG_OPTIONS);
                     ByteArrayOutputStream output = new ByteArrayOutputStream();
                     sr.toImage(0, output);
-
-                    System.out.println("1");
-
-                    ImageInputStream input = ImageIO.createImageInputStream(new ByteArrayInputStream(output.toByteArray()));
-
-                    System.out.println("2");
-
-                    return ImageIO.read(input);
+                    return ImageIO.read(new ByteArrayInputStream(output.toByteArray()));
                 }
             }
 
