@@ -121,7 +121,6 @@ public class CommandTeacherSubscribe implements CommandHandler {
                             media.setFileName("schedule.png");
                             scheduleMessage.addMedia(media);
                             scheduleMessage.setChatId(sender.getId());
-                            System.out.println("Send to bot");
                             BotManager.getBot(sender.getBotType()).sendMessage(scheduleMessage);
                             return;
                         }

@@ -164,12 +164,8 @@ public class TeacherSchedule extends Schedule {
                 Worksheet sheet = workbook.getWorksheets().get(0);
                 Cells cells = sheet.getCells();
 
-                System.out.println("Book created");
-
                 buildHeader(cells, lang, teacher);
-                System.out.println("Header created");
                 buildClasses(lang, cells, teacher, week, students);
-                System.out.println("Classes created");
 
                 try{
                     AutoFitterOptions options = new AutoFitterOptions();
@@ -178,8 +174,6 @@ public class TeacherSchedule extends Schedule {
                 } catch (Exception e){
                     Logger.error("Error while build workbook: ", e);
                 }
-
-                System.out.println("Image creating...");
 
                 return new XlsToImage(workbook).format(ImageFormat.getPng()).generate();
             }
