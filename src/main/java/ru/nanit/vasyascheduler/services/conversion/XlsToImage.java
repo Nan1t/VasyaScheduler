@@ -3,16 +3,19 @@ package ru.nanit.vasyascheduler.services.conversion;
 import com.aspose.cells.*;
 import com.sun.imageio.plugins.png.PNGImageReader;
 import org.apache.commons.io.IOUtils;
+import ru.nanit.vasyascheduler.api.util.ImageUtil;
 import ru.nanit.vasyascheduler.api.util.Logger;
 import sun.awt.image.PNGImageDecoder;
 
 import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.Raster;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,9 +31,6 @@ public final class XlsToImage {
         IMG_OPTIONS.setOnePagePerSheet(true);
         IMG_OPTIONS.setOutputBlankPageWhenNothingToPrint(true);
         IMG_OPTIONS.setImageFormat(ImageFormat.getJpeg());
-
-        //ImageIO.setUseCache(false);
-        System.setProperty("java.awt.headless", "true");
     }
 
     private Workbook workbook;
@@ -64,9 +64,13 @@ public final class XlsToImage {
                     ByteArrayOutputStream output = new ByteArrayOutputStream();
                     sr.toImage(0, output);
 
-                    BufferedImage image = ImageIO.read(new ByteArrayInputStream(output.toByteArray()));
+                    System.out.println("1");
 
-                    return image;
+                    ImageInputStream input = ImageIO.createImageInputStream(new ByteArrayInputStream(output.toByteArray()));
+
+                    System.out.println("2");
+
+                    return ImageIO.read(input);
                 }
             }
 
