@@ -128,12 +128,15 @@ public class CommandTeacherSubscribe implements CommandHandler {
                             BotManager.getBot(sender.getBotType()).sendMessage(scheduleMessage);
                             return;
                         }
+                        Logger.warn("Teacher image is null");
                     } catch (IOException e){
                         Logger.error("Error while sending image: ", e);
                     }
 
                     BotManager.getBot(sender.getBotType())
                             .sendMessage(new Message(lang.of("error.undefined")));
+                }).thenRunAsync(()->{
+                    System.out.println("Finished sending");
                 });
 
                 Message response = new Message(String.format(lang.of("command.teacher.subscribe.success"), teacher.toString()));
