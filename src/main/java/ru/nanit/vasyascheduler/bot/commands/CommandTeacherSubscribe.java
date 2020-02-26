@@ -111,11 +111,8 @@ public class CommandTeacherSubscribe implements CommandHandler {
 
                 CompletableFuture.runAsync(()->{
                     try{
-                        System.out.println("Run async");
                         BufferedImage image = scheduleManager.getTeacherSchedule()
                                 .getBuilder().build(lang, scheduleManager.getStudentSchedule(), teacher);
-
-                        System.out.println("Image is " + image);
 
                         if(image != null){
                             Message scheduleMessage = new Message();
@@ -128,6 +125,7 @@ public class CommandTeacherSubscribe implements CommandHandler {
                             BotManager.getBot(sender.getBotType()).sendMessage(scheduleMessage);
                             return;
                         }
+
                         Logger.warn("Teacher image is null");
                     } catch (IOException e){
                         Logger.error("Error while sending image: ", e);

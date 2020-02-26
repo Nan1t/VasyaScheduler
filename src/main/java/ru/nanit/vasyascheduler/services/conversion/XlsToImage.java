@@ -49,14 +49,21 @@ public final class XlsToImage {
         try {
             Worksheet sheet = workbook.getWorksheets().get(sheetIndex);
 
+            System.out.println("[Image] Sheet taken");
+
             if(sheet != null){
+                System.out.println("[Image] Sheet not null");
                 if (sheet.getCells().getCount() > 0) {
+                    System.out.println("[Image] Have more 0 cells");
                     SheetRender sr = new SheetRender(sheet, IMG_OPTIONS);
                     ByteArrayOutputStream output = new ByteArrayOutputStream();
                     sr.toImage(0, output);
+                    System.out.println("[Image] Return image");
                     return ImageIO.read(new ByteArrayInputStream(output.toByteArray()));
                 }
             }
+
+            System.out.println("[Image] Error");
         } catch (Exception e) {
             Logger.error("Cannot convert workbook to image: ", e);
         }
