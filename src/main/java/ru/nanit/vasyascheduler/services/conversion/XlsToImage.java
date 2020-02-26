@@ -58,8 +58,13 @@ public final class XlsToImage {
                     SheetRender sr = new SheetRender(sheet, IMG_OPTIONS);
                     ByteArrayOutputStream output = new ByteArrayOutputStream();
                     sr.toImage(0, output);
-                    System.out.println("[Image] Return image");
-                    return ImageIO.read(new ByteArrayInputStream(output.toByteArray()));
+
+                    ByteArrayInputStream stream = new ByteArrayInputStream(output.toByteArray());
+                    System.out.println("[Image] Stream created");
+                    BufferedImage image = ImageIO.read(stream);
+                    System.out.println("[Image] Image created");
+
+                    return image;
                 }
             }
 
