@@ -14,6 +14,7 @@ import ru.nanit.vasyascheduler.data.chat.Message;
 import ru.nanit.vasyascheduler.data.user.SubscriberTeacher;
 import ru.nanit.vasyascheduler.services.BotManager;
 import ru.nanit.vasyascheduler.services.ScheduleManager;
+import ru.nanit.vasyascheduler.services.ScheduleTimer;
 import ru.nanit.vasyascheduler.services.SubscribesManager;
 
 import java.awt.image.BufferedImage;
@@ -25,9 +26,9 @@ public class CommandTeacherSubscribe implements CommandHandler {
 
     private static final int TEACHERS_ON_PAGE = 15;
 
-    private Language lang;
-    private ScheduleManager scheduleManager;
-    private SubscribesManager subscribesManager;
+    private final Language lang;
+    private final ScheduleManager scheduleManager;
+    private final SubscribesManager subscribesManager;
 
     public CommandTeacherSubscribe(Language lang, SubscribesManager subscribesManager, ScheduleManager scheduleManager){
         this.lang = lang;
@@ -37,6 +38,10 @@ public class CommandTeacherSubscribe implements CommandHandler {
 
     @Override
     public Message execute(CommandSender sender, String command, String... args) {
+        if (ScheduleTimer.isUpdating()){
+            return new Message(lang.of("timer.updating"));
+        }
+
         if(args.length < 3){
             List<Person> teachers = scheduleManager.getTeacherSchedule().getTeachers();
 

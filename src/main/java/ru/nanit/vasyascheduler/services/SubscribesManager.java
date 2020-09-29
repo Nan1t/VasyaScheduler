@@ -5,7 +5,6 @@ import ru.nanit.vasyascheduler.api.storage.database.Database;
 import ru.nanit.vasyascheduler.api.storage.database.Row;
 import ru.nanit.vasyascheduler.bot.Bot;
 import ru.nanit.vasyascheduler.data.Person;
-import ru.nanit.vasyascheduler.data.schedule.Schedule;
 import ru.nanit.vasyascheduler.data.schedule.StudentSchedule;
 import ru.nanit.vasyascheduler.data.user.BotUser;
 import ru.nanit.vasyascheduler.data.user.SubscriberPoints;
@@ -13,58 +12,146 @@ import ru.nanit.vasyascheduler.data.user.SubscriberStudent;
 import ru.nanit.vasyascheduler.data.user.SubscriberTeacher;
 
 import java.util.Collection;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public final class SubscribesManager {
 
-    private Database database;
-    private ScheduleManager scheduleManager;
-
-    private Map<String, SubscriberTeacher> teachers = new TreeMap<>();
-    private Map<String, SubscriberStudent> students = new TreeMap<>();
-    private Map<String, SubscriberPoints> points = new TreeMap<>();
+    private final Database database;
+    private final ScheduleManager scheduleManager;
 
     public SubscribesManager(Database database, ScheduleManager scheduleManager){
         this.database = database;
         this.scheduleManager = scheduleManager;
     }
 
-    public String generateKey(Bot.Type type, String id){
-        return type.getId() + "::" + id;
-    }
-
-    public String generateKey(BotUser user){
-        return user.getBotType().getId() + "::" + user.getMessengerId();
-    }
-
     public SubscriberTeacher getTeacherSubscriber(Bot.Type type, String id){
-        return teachers.get(generateKey(type, id));
+        Row row = getUserRow(Tables.SUBSCRIBES_TEACHERS, type, id);
+
+        if (row != null){
+            String firstName = row.getField("first_name");
+            String lastName = row.getField("last_name");
+            String patronymic = row.getField("patronymic");
+            SubscriberTeacher subscriber = new SubscriberTeacher(new Person(firstName, lastName, patronymic));
+
+            subscriber.setBotType(type);
+            subscriber.setMessengerId(id);
+
+            return subscriber;
+        }
+
+        return null;
     }
 
     public SubscriberStudent getStudentSubscriber(Bot.Type type, String id){
-        return students.get(generateKey(type, id));
+        Row row = getUserRow(Tables.SUBSCRIBES_STUDENTS, type, id);
+
+        if (row != null){
+            StudentSchedule schedule = scheduleManager.getStudentSchedule(row.getField("schedule_name"));
+
+            if(schedule != null) {
+                SubscriberStudent subscriber = new SubscriberStudent(schedule.getName());
+                subscriber.setBotType(type);
+                subscriber.setMessengerId(id);
+                return subscriber;
+            }
+        }
+
+        return null;
     }
 
     public SubscriberPoints getPointsSubscriber(Bot.Type type, String id){
-        return points.get(generateKey(type, id));
+        Row row = getUserRow(Tables.SUBSCRIBES_POINTS, type, id);
+
+        if(row != null){
+            String firstName = row.getField("first_name");
+            String lastName = row.getField("last_name");
+            String patronymic = row.getField("patronymic");
+            String password = row.getField("password");
+            SubscriberPoints subscriber = new SubscriberPoints(new Person(firstName, lastName, patronymic), password);
+            subscriber.setBotType(type);
+            subscriber.setMessengerId(id);
+            return subscriber;
+        }
+
+        return null;
     }
 
     public Collection<SubscriberTeacher> getTeacherSubscribers(){
-        return teachers.values();
+        Row[] rows = getUsersRows(Tables.SUBSCRIBES_TEACHERS);
+        List<SubscriberTeacher> list = new LinkedList<>();
+
+        for (Row row : rows){
+            Bot.Type botType = Bot.Type.fromId(row.getField("messenger_type"));
+            String id = row.getField("messenger_id");
+            String firstName = row.getField("first_name");
+            String lastName = row.getField("last_name");
+            String patronymic = row.getField("patronymic");
+            SubscriberTeacher subscriber = new SubscriberTeacher(new Person(firstName, lastName, patronymic));
+
+            subscriber.setBotType(botType);
+            subscriber.setMessengerId(id);
+
+            list.add(subscriber);
+        }
+
+        return list;
     }
 
     public Collection<SubscriberStudent> getStudentSubscribers(){
-        return students.values();
+        Row[] rows = getUsersRows(Tables.SUBSCRIBES_STUDENTS);
+        List<SubscriberStudent> list = new LinkedList<>();
+
+        for (Row row : rows){
+            StudentSchedule schedule = scheduleManager.getStudentSchedule(row.getField("schedule_name"));
+
+            if(schedule != null){
+                Bot.Type botType = Bot.Type.fromId(row.getField("messenger_type"));
+                String id = row.getField("messenger_id");
+                SubscriberStudent subscriber = new SubscriberStudent(schedule.getName());
+
+                subscriber.setBotType(botType);
+                subscriber.setMessengerId(id);
+
+                list.add(subscriber);
+            }
+        }
+
+        return list;
     }
 
     public Collection<SubscriberPoints> getPointSubscribers(){
-        return points.values();
+        Row[] rows = getUsersRows(Tables.SUBSCRIBES_POINTS);
+        List<SubscriberPoints> list = new LinkedList<>();
+
+        for (Row row : rows){
+            Bot.Type botType = Bot.Type.fromId(row.getField("messenger_type"));
+            String id = row.getField("messenger_id");
+            String firstName = row.getField("first_name");
+            String lastName = row.getField("last_name");
+            String patronymic = row.getField("patronymic");
+            String password = row.getField("password");
+            SubscriberPoints subscriber = new SubscriberPoints(new Person(firstName, lastName, patronymic), password);
+
+            subscriber.setBotType(botType);
+            subscriber.setMessengerId(id);
+
+            list.add(subscriber);
+        }
+
+        return list;
+    }
+
+    private Row[] getUsersRows(String table){
+        return database.getRows("SELECT * FROM " + table);
+    }
+
+    private Row getUserRow(String table, Bot.Type type, String id){
+        return database.getRow("SELECT * FROM `"+table+"` WHERE `messenger_type`=? AND `messenger_id`=?", type.getId(), id);
     }
 
     public void addTeacherSubscriber(SubscriberTeacher subscriber){
-        teachers.put(generateKey(subscriber), subscriber);
         CompletableFuture.runAsync(()->{
             Row row = new Row();
             row.addField("messenger_id", subscriber.getMessengerId());
@@ -85,7 +172,6 @@ public final class SubscribesManager {
     }
 
     public void addStudentSubscriber(SubscriberStudent subscriber){
-        students.put(generateKey(subscriber), subscriber);
         CompletableFuture.runAsync(()->{
             Row row = new Row();
             row.addField("messenger_id", subscriber.getMessengerId());
@@ -104,7 +190,6 @@ public final class SubscribesManager {
     }
 
     public void addPointsSubscriber(SubscriberPoints subscriber){
-        points.put(generateKey(subscriber), subscriber);
         CompletableFuture.runAsync(()->{
             Row row = new Row();
             row.addField("messenger_id", subscriber.getMessengerId());
@@ -133,17 +218,14 @@ public final class SubscribesManager {
     }
 
     public void removeTeacherSubscriber(SubscriberTeacher subscriber){
-        teachers.remove(generateKey(subscriber));
         removeDBUser(Tables.SUBSCRIBES_TEACHERS, subscriber);
     }
 
     public void removeStudentSubscriber(SubscriberStudent subscriber){
-        students.remove(generateKey(subscriber));
         removeDBUser(Tables.SUBSCRIBES_STUDENTS, subscriber);
     }
 
     public void removePointsSubscriber(SubscriberPoints subscriber){
-        points.remove(generateKey(subscriber));
         removeDBUser(Tables.SUBSCRIBES_POINTS, subscriber);
     }
 
@@ -154,67 +236,5 @@ public final class SubscribesManager {
             row.addField("messenger_type", user.getBotType().getId());
             database.deleteRow(table, row);
         });
-    }
-
-    public void loadAll(){
-        loadTeachers();
-        loadStudents();
-        loadPoints();
-    }
-
-    private void loadTeachers(){
-        Row[] rows = database.getRows("SELECT * FROM " + Tables.SUBSCRIBES_TEACHERS);
-
-        for (Row row : rows){
-            Bot.Type botType = Bot.Type.fromId(row.getField("messenger_type"));
-            String id = row.getField("messenger_id");
-            String firstName = row.getField("first_name");
-            String lastName = row.getField("last_name");
-            String patronymic = row.getField("patronymic");
-            SubscriberTeacher subscriber = new SubscriberTeacher(new Person(firstName, lastName, patronymic));
-
-            subscriber.setBotType(botType);
-            subscriber.setMessengerId(id);
-
-            teachers.put(generateKey(subscriber), subscriber);
-        }
-    }
-
-    private void loadStudents(){
-        Row[] rows = database.getRows("SELECT * FROM " + Tables.SUBSCRIBES_STUDENTS);
-
-        for (Row row : rows){
-            StudentSchedule schedule = scheduleManager.getStudentSchedule(row.getField("schedule_name"));
-
-            if(schedule != null){
-                Bot.Type botType = Bot.Type.fromId(row.getField("messenger_type"));
-                String id = row.getField("messenger_id");
-                SubscriberStudent subscriber = new SubscriberStudent(schedule.getName());
-
-                subscriber.setBotType(botType);
-                subscriber.setMessengerId(id);
-
-                students.put(generateKey(subscriber), subscriber);
-            }
-        }
-    }
-
-    private void loadPoints(){
-        Row[] rows = database.getRows("SELECT * FROM " + Tables.SUBSCRIBES_POINTS);
-
-        for (Row row : rows){
-            Bot.Type botType = Bot.Type.fromId(row.getField("messenger_type"));
-            String id = row.getField("messenger_id");
-            String firstName = row.getField("first_name");
-            String lastName = row.getField("last_name");
-            String patronymic = row.getField("patronymic");
-            String password = row.getField("password");
-            SubscriberPoints subscriber = new SubscriberPoints(new Person(firstName, lastName, patronymic), password);
-
-            subscriber.setBotType(botType);
-            subscriber.setMessengerId(id);
-
-            points.put(generateKey(subscriber), subscriber);
-        }
     }
 }

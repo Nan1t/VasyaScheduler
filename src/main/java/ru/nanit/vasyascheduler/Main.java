@@ -10,9 +10,17 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         Logger.info("Loading libraries...");
-        Path root = Paths.get(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent();
+        Path root = getAppFolder();
         //LibLoader.load(Paths.get(root.toString(), "libs"));
         new VasyaScheduler(root).start();
+    }
+
+    public static Path getAppFolder(){
+        try{
+            return Paths.get(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent();
+        } catch (Exception e){
+            return null;
+        }
     }
 
 }

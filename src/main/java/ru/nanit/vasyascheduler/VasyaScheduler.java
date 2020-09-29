@@ -1,5 +1,6 @@
 package ru.nanit.vasyascheduler;
 
+import com.aspose.cells.FontConfigs;
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import ru.nanit.vasyascheduler.api.storage.Configuration;
@@ -22,7 +23,6 @@ import ru.nanit.vasyascheduler.data.schedule.StudentSchedule;
 import ru.nanit.vasyascheduler.data.schedule.TeacherSchedule;
 import ru.nanit.vasyascheduler.services.*;
 import ru.nanit.vasyascheduler.bot.Bot;
-import ru.nanit.vasyascheduler.web.WebPanel;
 
 import java.io.InputStream;
 import java.net.Authenticator;
@@ -34,7 +34,7 @@ import java.util.Scanner;
 
 public class VasyaScheduler {
 
-    private Path root;
+    private final Path root;
     private Configuration conf;
     private Language lang;
     private Database database;
@@ -46,7 +46,6 @@ public class VasyaScheduler {
     private ScheduleTimer scheduleTimer;
     private ConsoleManager consoleManager;
     private PointsManager pointsManager;
-    private WebPanel webPanel;
 
     public VasyaScheduler(Path root){
         this.root = root;
@@ -92,6 +91,8 @@ public class VasyaScheduler {
         Patterns.setTeacherDefaultSeparate(conf.get().getNode("expressions", "teacherDefaultGroups").getString());
         Patterns.setTeacherInline(conf.get().getNode("expressions", "teacherInline").getString());
 
+        FontConfigs.setFontFolder(Main.getAppFolder().toString(), false);
+
         lang = new Language("lang.conf", confFolder, this);
         scheduleManager = new ScheduleManager(scheduleConf, properties, lang);
         subscribesManager = new SubscribesManager(database, scheduleManager);
@@ -100,8 +101,6 @@ public class VasyaScheduler {
         scheduleManager.loadConsultationSchedule();
         scheduleManager.loadStudentsSchedule();
         scheduleManager.loadProperties();
-
-        subscribesManager.loadAll();
 
         Configuration pointsConf = new Configuration("points.conf", confFolder, this);
         pointsManager = new PointsManager(pointsConf);
@@ -113,8 +112,6 @@ public class VasyaScheduler {
 
         scheduleTimer = new ScheduleTimer(conf, lang, properties, scheduleManager, subscribesManager);
         scheduleTimer.start();
-
-        webPanel = new WebPanel(conf);
 
         /*Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try{

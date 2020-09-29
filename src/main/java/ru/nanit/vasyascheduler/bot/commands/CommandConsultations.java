@@ -9,15 +9,16 @@ import ru.nanit.vasyascheduler.data.chat.Media;
 import ru.nanit.vasyascheduler.data.chat.Message;
 import ru.nanit.vasyascheduler.data.user.SubscriberTeacher;
 import ru.nanit.vasyascheduler.services.ScheduleManager;
+import ru.nanit.vasyascheduler.services.ScheduleTimer;
 import ru.nanit.vasyascheduler.services.SubscribesManager;
 
 import java.awt.image.BufferedImage;
 
 public class CommandConsultations implements CommandHandler {
 
-    private Language lang;
-    private SubscribesManager subscribesManager;
-    private ScheduleManager scheduleManager;
+    private final Language lang;
+    private final SubscribesManager subscribesManager;
+    private final ScheduleManager scheduleManager;
 
     public CommandConsultations(Language lang, SubscribesManager subscribesManager, ScheduleManager scheduleManager){
         this.lang = lang;
@@ -27,6 +28,10 @@ public class CommandConsultations implements CommandHandler {
 
     @Override
     public Message execute(CommandSender sender, String command, String... args) throws Exception {
+        if (ScheduleTimer.isUpdating()){
+            return new Message(lang.of("timer.updating"));
+        }
+
         SubscriberTeacher subscriber = subscribesManager.getTeacherSubscriber(sender.getBotType(), sender.getId());
 
         if(subscriber != null){

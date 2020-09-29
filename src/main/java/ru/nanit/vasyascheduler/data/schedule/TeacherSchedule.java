@@ -175,7 +175,10 @@ public class TeacherSchedule extends Schedule {
                     Logger.error("Error while build workbook: ", e);
                 }
 
-                return new XlsToImage(workbook).format(ImageFormat.getPng()).generate();
+                return new XlsToImage(workbook)
+                        .format(ImageFormat.getPng())
+                        .resolution(80)
+                        .generate();
             }
 
             Logger.warn("Attempt to get schedule of unregistered teacher " + teacher + ". Attempt denied");

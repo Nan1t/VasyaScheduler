@@ -32,7 +32,6 @@ dependencies {
     /* HOCON configuration library */
     compile group: 'ninja.leaping.configurate', name: 'configurate-hocon', version: '3.3'
     /* Library to parse Microsoft office documents */
-    //compile group: 'com.aspose', name: 'aspose-cells', version: '19.7'
     compile files('libs/aspose-cells-19.12_cracked.jar')
     /* HTTP server library */
     compile 'org.nanohttpd:nanohttpd:2.3.1'

@@ -1,41 +1,20 @@
 package ru.nanit.vasyascheduler.services.conversion;
 
 import com.aspose.cells.*;
-import com.sun.imageio.plugins.common.ImageUtil;
-import com.sun.imageio.plugins.png.PNGImageReader;
-import org.apache.commons.io.IOUtils;
 import ru.nanit.vasyascheduler.api.util.Logger;
-import sun.awt.image.PNGImageDecoder;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
-import javax.imageio.stream.ImageOutputStream;
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.Raster;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class XlsToImage {
 
-    private static final ImageOrPrintOptions IMG_OPTIONS;
-
-    static{
-        IMG_OPTIONS = new ImageOrPrintOptions();
-        IMG_OPTIONS.setHorizontalResolution(150);
-        IMG_OPTIONS.setVerticalResolution(150);
-        IMG_OPTIONS.setQuality(100);
-        IMG_OPTIONS.setOnePagePerSheet(true);
-        IMG_OPTIONS.setOutputBlankPageWhenNothingToPrint(true);
-        IMG_OPTIONS.setImageFormat(ImageFormat.getJpeg());
-    }
-
-    private Workbook workbook;
-    private int sheetIndex;
+    private final ImageOrPrintOptions options;
+    private final Workbook workbook;
+    private final int sheetIndex;
 
     public XlsToImage(Workbook workbook){
         this(workbook, 0);
@@ -44,10 +23,24 @@ public final class XlsToImage {
     public XlsToImage(Workbook workbook, int sheetIndex){
         this.workbook = workbook;
         this.sheetIndex = sheetIndex;
+
+        options = new ImageOrPrintOptions();
+        options.setHorizontalResolution(80);
+        options.setVerticalResolution(80);
+        options.setQuality(100);
+        options.setOnePagePerSheet(true);
+        options.setOutputBlankPageWhenNothingToPrint(true);
+        options.setImageFormat(ImageFormat.getJpeg());
+    }
+
+    public XlsToImage resolution(int value){
+        options.setHorizontalResolution(value);
+        options.setVerticalResolution(value);
+        return this;
     }
 
     public XlsToImage format(ImageFormat format){
-        IMG_OPTIONS.setImageFormat(format);
+        options.setImageFormat(format);
         return this;
     }
 
@@ -59,16 +52,15 @@ public final class XlsToImage {
         try {
             Worksheet sheet = workbook.getWorksheets().get(sheetIndex);
 
-            if(sheet != null){
-                if (sheet.getCells().getCount() > 0) {
-                    SheetRender sr = new SheetRender(sheet, IMG_OPTIONS);
-                    ByteArrayOutputStream output = new ByteArrayOutputStream();
-                    sr.toImage(0, output);
-                    return ImageIO.read(new ByteArrayInputStream(output.toByteArray()));
-                }
+            if(sheet != null && sheet.getCells().getCount() > 0){
+                SheetRender sr = new SheetRender(sheet, options);
+                ByteArrayOutputStream output = new ByteArrayOutputStream();
+                sr.toImage(0, output);
+                workbook.dispose();
+                return ImageIO.read(new ByteArrayInputStream(output.toByteArray()));
             }
 
-            System.out.println("[Image] Error");
+            Logger.error("Cannot convert table to image. Table is empty");
         } catch (Exception e) {
             Logger.error("Cannot convert workbook to image: ", e);
         }
@@ -90,7 +82,7 @@ public final class XlsToImage {
 
                 if(sheet != null){
                     if (sheet.getCells().getCount() > 0 || sheet.getCharts().getCount() > 0 || sheet.getPictures().getCount() > 0) {
-                        SheetRender sr = new SheetRender(sheet, IMG_OPTIONS);
+                        SheetRender sr = new SheetRender(sheet, options);
                         ByteArrayOutputStream output = new ByteArrayOutputStream();
                         sr.toImage(i, output);
                         ByteArrayInputStream input = new ByteArrayInputStream(output.toByteArray());

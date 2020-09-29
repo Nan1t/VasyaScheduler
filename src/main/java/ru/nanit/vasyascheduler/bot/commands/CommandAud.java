@@ -12,6 +12,7 @@ import ru.nanit.vasyascheduler.data.chat.Media;
 import ru.nanit.vasyascheduler.data.chat.Message;
 import ru.nanit.vasyascheduler.services.BotManager;
 import ru.nanit.vasyascheduler.services.ScheduleManager;
+import ru.nanit.vasyascheduler.services.ScheduleTimer;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -20,8 +21,8 @@ import java.util.concurrent.CompletableFuture;
 
 public class CommandAud implements CommandHandler {
 
-    private ScheduleManager scheduleManager;
-    private Language lang;
+    private final ScheduleManager scheduleManager;
+    private final Language lang;
 
     public CommandAud(ScheduleManager scheduleManager, Language lang){
         this.scheduleManager = scheduleManager;
@@ -30,6 +31,10 @@ public class CommandAud implements CommandHandler {
 
     @Override
     public Message execute(CommandSender sender, String command, String... args) {
+        if (ScheduleTimer.isUpdating()){
+            return new Message(lang.of("timer.updating"));
+        }
+
         if(args.length == 2){
             if(args[0].equals("show")){
                 String aud = args[1];

@@ -7,13 +7,14 @@ import ru.nanit.vasyascheduler.bot.CommandSender;
 import ru.nanit.vasyascheduler.data.chat.Media;
 import ru.nanit.vasyascheduler.data.chat.Message;
 import ru.nanit.vasyascheduler.services.ScheduleManager;
+import ru.nanit.vasyascheduler.services.ScheduleTimer;
 
 import java.awt.image.BufferedImage;
 
 public class CommandConsultationsAll implements CommandHandler {
 
-    private Language lang;
-    private ScheduleManager scheduleManager;
+    private final Language lang;
+    private final ScheduleManager scheduleManager;
 
     public CommandConsultationsAll(Language lang, ScheduleManager scheduleManager){
         this.lang = lang;
@@ -22,6 +23,10 @@ public class CommandConsultationsAll implements CommandHandler {
 
     @Override
     public Message execute(CommandSender sender, String command, String... args) throws Exception {
+        if (ScheduleTimer.isUpdating()){
+            return new Message(lang.of("timer.updating"));
+        }
+
         BufferedImage image = scheduleManager.getConsultationSchedule().toImage();
 
         if(image != null){

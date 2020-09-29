@@ -18,13 +18,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public final class ScheduleManager {
 
-    private Configuration scheduleConf;
-    private Properties properties;
-    private Language lang;
+    private final Configuration scheduleConf;
+    private final Properties properties;
+    private final Language lang;
 
     private TeacherSchedule teacherSchedule; // Contains parsed teacher schedule
     private ConsultationSchedule consultationSchedule; // Contains parsed consultation schedule
-    private Map<String, StudentSchedule> studentSchedule = new ConcurrentHashMap<>(); // Contains all parsed tables of students schedule
+    private final Map<String, StudentSchedule> studentSchedule = new ConcurrentHashMap<>(); // Contains all parsed tables of students schedule
     private Map<String, Map<Integer, StudentSchedule.Day>> mergedAudDays;
 
     public ScheduleManager(Configuration scheduleConf, Properties properties, Language lang){
@@ -192,7 +192,10 @@ public final class ScheduleManager {
                 Logger.error("Error while build workbook: ", e);
             }
 
-            return new XlsToImage(workbook).format(ImageFormat.getPng()).generate();
+            return new XlsToImage(workbook)
+                    .format(ImageFormat.getPng())
+                    .resolution(80)
+                    .generate();
         }
 
         private void buildHeader(Cells cells, Language lang, String aud){

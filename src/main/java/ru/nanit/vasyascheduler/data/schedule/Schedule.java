@@ -7,7 +7,6 @@ import ru.nanit.vasyascheduler.api.util.Logger;
 import ru.nanit.vasyascheduler.services.conversion.XlsToImage;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -35,10 +34,6 @@ public abstract class Schedule {
         return sheet;
     }
 
-    public void setLink(URL link){
-        this.link = link;
-    }
-
     public void setLink(String link){
         try {
             this.link = new URL(link);
@@ -56,7 +51,13 @@ public abstract class Schedule {
     public void parseImage(){
         try (InputStream stream = link.openStream()){
             Workbook workbook = new Workbook(stream);
-            image = new XlsToImage(workbook, getSheet()).format(ImageFormat.getPng()).generate();
+
+            image = new XlsToImage(workbook, getSheet())
+                    .format(ImageFormat.getPng())
+                    .resolution(155)
+                    .generate();
+
+            workbook.dispose();
         } catch (Exception e){
             Logger.error("Cannot convert schedule "+FilenameUtils.getName(link.getFile())+" to image: ", e);
         }

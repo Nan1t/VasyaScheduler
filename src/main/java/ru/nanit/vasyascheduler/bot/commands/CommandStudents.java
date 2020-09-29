@@ -11,6 +11,7 @@ import ru.nanit.vasyascheduler.data.schedule.StudentSchedule;
 import ru.nanit.vasyascheduler.data.user.SubscriberStudent;
 import ru.nanit.vasyascheduler.services.BotManager;
 import ru.nanit.vasyascheduler.services.ScheduleManager;
+import ru.nanit.vasyascheduler.services.ScheduleTimer;
 import ru.nanit.vasyascheduler.services.SubscribesManager;
 
 import java.awt.image.BufferedImage;
@@ -18,10 +19,9 @@ import java.util.concurrent.CompletableFuture;
 
 public class CommandStudents implements CommandHandler {
 
-    private Language lang;
-
-    private SubscribesManager subscribesManager;
-    private ScheduleManager scheduleManager;
+    private final Language lang;
+    private final SubscribesManager subscribesManager;
+    private final ScheduleManager scheduleManager;
 
     public CommandStudents(Language lang, SubscribesManager subscribesManager, ScheduleManager scheduleManager) {
         this.lang = lang;
@@ -31,6 +31,10 @@ public class CommandStudents implements CommandHandler {
 
     @Override
     public Message execute(CommandSender sender, String command, String... args) throws Exception {
+        if (ScheduleTimer.isUpdating()){
+            return new Message(lang.of("timer.updating"));
+        }
+
         SubscriberStudent subscriber = subscribesManager.getStudentSubscriber(sender.getBotType(), sender.getId());
 
         if(subscriber != null){

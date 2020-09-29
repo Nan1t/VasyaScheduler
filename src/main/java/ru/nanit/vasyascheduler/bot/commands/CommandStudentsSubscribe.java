@@ -13,6 +13,7 @@ import ru.nanit.vasyascheduler.data.schedule.StudentSchedule;
 import ru.nanit.vasyascheduler.data.user.SubscriberStudent;
 import ru.nanit.vasyascheduler.services.BotManager;
 import ru.nanit.vasyascheduler.services.ScheduleManager;
+import ru.nanit.vasyascheduler.services.ScheduleTimer;
 import ru.nanit.vasyascheduler.services.SubscribesManager;
 
 import java.util.Map;
@@ -20,9 +21,9 @@ import java.util.concurrent.CompletableFuture;
 
 public class CommandStudentsSubscribe implements CommandHandler {
 
-    private Language lang;
-    private SubscribesManager subscribesManager;
-    private ScheduleManager scheduleManager;
+    private final Language lang;
+    private final SubscribesManager subscribesManager;
+    private final ScheduleManager scheduleManager;
 
     public CommandStudentsSubscribe(Language lang, SubscribesManager subscribesManager, ScheduleManager scheduleManager) {
         this.lang = lang;
@@ -32,6 +33,10 @@ public class CommandStudentsSubscribe implements CommandHandler {
 
     @Override
     public Message execute(CommandSender sender, String command, String... args) throws Exception {
+        if (ScheduleTimer.isUpdating()){
+            return new Message(lang.of("timer.updating"));
+        }
+
         if(args.length == 0){
             Map<String, StudentSchedule> scheduleMap = scheduleManager.getStudentSchedule();
             Message message = new Message(lang.of("command.students.subscribe.list"));
