@@ -12,13 +12,13 @@ public interface Bot {
     void sendMessage(final Message message);
 
     enum Type{
-        TELEGRAM(BotTelegram.class, (byte) 0),
-        FACEBOOK(BotTelegram.class, (byte) 2);
+        TELEGRAM(BotTelegram.class, 0),
+        FACEBOOK(BotTelegram.class, 2);
 
         Class<? extends Bot> type;
-        byte id;
+        int id;
 
-        Type(Class<? extends Bot> type, byte id){
+        Type(Class<? extends Bot> type, int id){
             this.type = type;
             this.id = id;
         }
@@ -27,7 +27,7 @@ public interface Bot {
             return type;
         }
 
-        public byte getId(){
+        public int getId(){
             return id;
         }
 
