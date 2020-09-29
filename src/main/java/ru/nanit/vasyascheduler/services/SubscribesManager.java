@@ -148,7 +148,7 @@ public final class SubscribesManager {
     }
 
     private Row getUserRow(String table, Bot.Type type, String id){
-        return database.getRow("SELECT * FROM "+table+" WHERE `messenger_type`=? AND `messenger_id`=?", (int) type.getId(), id);
+        return database.getRow("SELECT * FROM "+table+" WHERE `messenger_type`=? AND `messenger_id`=?", type.getId(), id);
     }
 
     public void addTeacherSubscriber(SubscriberTeacher subscriber){
