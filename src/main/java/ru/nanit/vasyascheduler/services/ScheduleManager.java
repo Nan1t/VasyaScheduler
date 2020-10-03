@@ -51,10 +51,12 @@ public final class ScheduleManager {
 
     public void updateAllSchedule() throws Exception {
         teacherSchedule.parse();
+        Logger.info("Parsed teachers schedule");
         Collection<StudentSchedule> students = studentSchedule.values();
         for (StudentSchedule schedule : students){
             try{
                 schedule.parse();
+                Logger.info("Parsed students schedule '" + schedule.getName() + "'");
             } catch (Exception e){
                 Logger.error("Cannot load schedule " + schedule.getName() + ": ", e);
             }
