@@ -60,6 +60,7 @@ public final class ScheduleManager {
         Collection<StudentSchedule> students = studentSchedule.values();
         for (StudentSchedule schedule : students){
             try{
+                Logger.info("Try to parse students schedule '" + schedule.getName() + "'...");
                 schedule.parse();
                 Logger.info("Parsed students schedule '" + schedule.getName() + "'");
             } catch (Exception e){
