@@ -12,6 +12,7 @@ import ru.nanit.vasyascheduler.data.datetime.Days;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 
@@ -83,8 +84,6 @@ public class StudentSchedule extends Schedule {
         days = new ConcurrentHashMap<>();
         auds = new ConcurrentHashMap<>();
 
-        parseImage();
-
         InputStream stream = getLink().openStream();
 
         Workbook workbook = new Workbook(stream);
@@ -155,7 +154,8 @@ public class StudentSchedule extends Schedule {
 
         stream.close();
         parseAuds();
-        //printAuds();
+
+        CompletableFuture.runAsync(this::parseImage);
     }
 
     private void parseGroups(Day day, int classNum, Cells cells, Cell classCell, Cell classType, Cell teacher, Cell audience){
