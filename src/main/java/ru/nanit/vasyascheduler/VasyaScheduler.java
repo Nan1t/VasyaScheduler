@@ -38,6 +38,7 @@ public class VasyaScheduler {
     private Configuration conf;
     private Language lang;
     private Database database;
+    private Properties properties;
 
     private CommandManager commandManager;
     private WebHookManager webhookManager;
@@ -72,7 +73,6 @@ public class VasyaScheduler {
         registerSerializers();
         setupProxy();
 
-        Properties properties;
         String propMethod = conf.get().getNode("properties").getString();
 
         if(propMethod.equalsIgnoreCase("FILE")){
@@ -204,6 +204,8 @@ public class VasyaScheduler {
         commandManager.registerCommand(new CommandPoints(lang, pointsManager, subscribesManager), "points", "point", "p");
 
         commandManager.registerCommand(new CommandAud(scheduleManager, lang), "aud");
+
+        commandManager.registerCommand(new CommandInvalidateHash(properties), "invalidatehash");
     }
 
     private void registerConsoleCommands(){

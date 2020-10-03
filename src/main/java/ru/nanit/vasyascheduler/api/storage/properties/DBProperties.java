@@ -7,12 +7,13 @@ import ru.nanit.vasyascheduler.api.util.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 public class DBProperties implements Properties {
 
-    private Database database;
-    private Map<String, String> properties = new HashMap<>();
+    private final Database database;
+    private final Map<String, String> properties = new HashMap<>();
 
     public DBProperties(Database database){
         this.database = database;
@@ -99,6 +100,15 @@ public class DBProperties implements Properties {
     @Override
     public void save() {
 
+    }
+
+    @Override
+    public void invalidate() {
+        Set<String> keys = properties.keySet();
+
+        for (String key : keys){
+            properties.put(key, "invalidated");
+        }
     }
 
     private void loadAll(){

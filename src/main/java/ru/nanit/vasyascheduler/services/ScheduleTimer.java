@@ -227,7 +227,7 @@ public final class ScheduleTimer {
                     return false;
                 }
 
-                if(lastHash.equals(hash)){
+                if(hash.equals(lastHash)){
                     return false;
                 }
 
@@ -248,7 +248,7 @@ public final class ScheduleTimer {
                 String lastHash = properties.getString("hash.teachers");
                 String hash = HashUtil.getSHA1(teachers);
 
-                if(hash != null && !lastHash.equals(hash)){
+                if(hash != null && !hash.equals(lastHash)){
                     properties.set("hash.teachers", hash);
                     properties.save();
                     return true;
@@ -273,7 +273,7 @@ public final class ScheduleTimer {
                     lastHash = properties.getString("hash." + entry.getKey());
                     hash = HashUtil.getSHA1(entry.getValue().getLink());
 
-                    if(hash == null || lastHash.equals(hash)){
+                    if(hash == null || hash.equals(lastHash)){
                         continue;
                     }
 

@@ -8,10 +8,11 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Set;
 
 public class FileProperties implements Properties {
 
-    private Path file;
+    private final Path file;
     private java.util.Properties properties;
 
     public FileProperties(Path directory, String file){
@@ -92,6 +93,15 @@ public class FileProperties implements Properties {
             stream.close();
         } catch (IOException e){
             Logger.error("Error while load properties in " + file.toString() + ": " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void invalidate() {
+        Set<Object> keys = properties.keySet();
+
+        for (Object key : keys){
+            properties.setProperty(key.toString(), "invalidated");
         }
     }
 

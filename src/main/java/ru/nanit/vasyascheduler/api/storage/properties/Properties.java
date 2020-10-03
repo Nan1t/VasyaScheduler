@@ -25,6 +25,8 @@ public interface Properties {
 
     void reload();
 
+    void invalidate();
+
     void save();
 
 }
