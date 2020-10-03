@@ -396,7 +396,7 @@ public class BotTelegram implements Bot {
             try {
                 response.complete((org.telegram.telegrambots.meta.api.objects.Message) handler.execute(method));
             } catch (TelegramApiException e) {
-                Logger.error("Cannot execute API method: ", e);
+                Logger.error("Cannot execute API method: " + e.getMessage());
                 response.complete(null);
             }
         }
@@ -417,7 +417,7 @@ public class BotTelegram implements Bot {
             try {
                 response.complete((org.telegram.telegrambots.meta.api.objects.Message) handler.execute(method));
             } catch (TelegramApiException e) {
-                Logger.error("Cannot execute API method: ", e);
+                Logger.error("Cannot execute API method: " + e.getMessage());
                 response.complete(null);
             }
         }
@@ -438,7 +438,7 @@ public class BotTelegram implements Bot {
             try {
                 response.complete(handler.execute(method));
             } catch (TelegramApiException e) {
-                Logger.error("Cannot execute API method: ", e);
+                Logger.error("Cannot execute API method: " + e.getMessage());
                 response.complete(null);
             }
         }
@@ -459,7 +459,7 @@ public class BotTelegram implements Bot {
             try {
                 response.complete(handler.execute(method));
             } catch (TelegramApiException e) {
-                Logger.error("Cannot execute API method: ", e);
+                Logger.error("Cannot execute API method: " + e.getMessage());
                 response.complete(null);
             }
         }
@@ -480,7 +480,7 @@ public class BotTelegram implements Bot {
             try {
                 response.complete(handler.execute(method));
             } catch (TelegramApiException e) {
-                Logger.error("Cannot execute API method: ", e);
+                Logger.error("Cannot execute API method: " + e.getMessage());
                 response.complete(null);
             }
         }
@@ -501,7 +501,7 @@ public class BotTelegram implements Bot {
             try {
                 response.complete(handler.execute(method));
             } catch (TelegramApiException e) {
-                Logger.error("Cannot execute API method: ", e);
+                Logger.error("Cannot execute API method: " + e.getMessage());
                 response.complete(null);
             }
         }
