@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class TeacherSchedule extends Schedule {
 
     private ParseData parseData;
-    private Builder builder;
+    private final Builder builder;
     private Map<String, String> matches;
 
     private String dateTime;
@@ -115,6 +115,8 @@ public class TeacherSchedule extends Schedule {
                 weeks.put(Person.parseFromString(teacher), week);
                 row++;
             }
+
+            workbook.dispose();
 
             teachers = weeks.keySet().stream().sorted().collect(Collectors.toList());
         }

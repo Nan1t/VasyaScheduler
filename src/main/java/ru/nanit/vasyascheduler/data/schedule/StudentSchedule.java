@@ -12,7 +12,6 @@ import ru.nanit.vasyascheduler.data.datetime.Days;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 
@@ -138,10 +137,9 @@ public class StudentSchedule extends Schedule {
             dayCellRange = dayCell.getMergedRange();
         }
 
+        parseImage(workbook);
         stream.close();
         parseAuds();
-
-        CompletableFuture.runAsync(this::parseImage);
     }
 
     private void parseGroups(Day day, int classNum, Cells cells, Cell classCell, Cell classType, Cell teacher, Cell audience){
@@ -241,11 +239,11 @@ public class StudentSchedule extends Schedule {
         return cells.get(curr.getRow() + dayRowHeight, parseData.getDayPos().getColumn());
     }
 
-    public class Day {
+    public static class Day {
 
         private Map<Integer, String> classTime = new HashMap<>();
-        private Map<Integer, Map<Person, Class>> classes = new HashMap<>(); // <ClassNum, <Teacher, ClassObj>>
-        private Map<Integer, Set<Class>> audClass = new HashMap<>();
+        private final Map<Integer, Map<Person, Class>> classes = new HashMap<>(); // <ClassNum, <Teacher, ClassObj>>
+        private final Map<Integer, Set<Class>> audClass = new HashMap<>();
 
         public Class getClazz(int num, Person teacher){
             Map<Person, Class> map = classes.get(num);
@@ -296,10 +294,10 @@ public class StudentSchedule extends Schedule {
         }
     }
 
-    public class Class {
+    public static class Class {
 
-        private String name, type, audience;
-        private Person teacher;
+        private final String name, type, audience;
+        private final Person teacher;
         private List<String> groups = new ArrayList<>();
 
         public Class(String name, String type, String audience, Person teacher){

@@ -17,6 +17,9 @@ import ru.nanit.vasyascheduler.services.ScheduleTimer;
 import ru.nanit.vasyascheduler.services.SubscribesManager;
 import ru.nanit.vasyascheduler.services.conversion.XlsToImage;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -40,12 +43,26 @@ public class CommandStudentsSubscribe implements CommandHandler {
 
         if(args.length == 0){
             Map<String, StudentSchedule> scheduleMap = scheduleManager.getStudentSchedule();
+            List<String> keys = new ArrayList<>(scheduleMap.keySet());
             Message message = new Message(lang.of("command.students.subscribe.list"));
             Keyboard keyboard = new Keyboard();
 
-            for (Map.Entry<String, StudentSchedule> entry : scheduleMap.entrySet()){
-                keyboard.addButtonToNewRow(new ChatButton(entry.getValue().getDisplayName(),
-                        "/studentsubscribe " + entry.getKey()));
+            keys.sort(String::compareToIgnoreCase);
+
+            int counter = 0;
+
+            for (String key : keys){
+                StudentSchedule schedule = scheduleMap.get(key);
+                ChatButton button = new ChatButton(schedule.getDisplayName(),
+                        "/studentsubscribe " + key);
+
+                if (counter % 2 == 0){
+                    keyboard.addButtonToNewRow(button);
+                } else {
+                    keyboard.addButton(button);
+                }
+
+                counter++;
             }
 
             message.setKeyboard(keyboard);

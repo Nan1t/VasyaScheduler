@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ConsultationSchedule extends Schedule {
 
     private ParseData parseData;
-    private Builder builder;
+    private final Builder builder;
     private Map<Person, Week> weeks;
 
     private ConsultationSchedule(){
@@ -48,8 +48,6 @@ public class ConsultationSchedule extends Schedule {
         }
 
         weeks = new ConcurrentHashMap<>();
-
-        parseImage();
 
         try (InputStream stream = getLink().openStream()) {
             Workbook workbook = new Workbook(stream);
@@ -81,10 +79,12 @@ public class ConsultationSchedule extends Schedule {
                     weeks.put(teacher, week);
                 }
             }
+
+            parseImage(workbook);
         }
     }
 
-    private final class Week {
+    private static final class Week {
 
         private Map<Integer, String> days = new HashMap<>();
 

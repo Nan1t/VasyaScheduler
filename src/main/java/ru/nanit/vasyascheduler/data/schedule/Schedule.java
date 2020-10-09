@@ -55,11 +55,15 @@ public abstract class Schedule {
             image = new XlsToImage(workbook, getSheet())
                     .resolution(155)
                     .generate();
-
-            workbook.dispose();
         } catch (Exception e){
             Logger.error("Cannot convert schedule "+FilenameUtils.getName(link.getFile())+" to image: ", e);
         }
+    }
+
+    public void parseImage(Workbook workbook){
+        image = new XlsToImage(workbook, getSheet())
+                .resolution(155)
+                .generate();
     }
 
     public BufferedImage toImage(){
