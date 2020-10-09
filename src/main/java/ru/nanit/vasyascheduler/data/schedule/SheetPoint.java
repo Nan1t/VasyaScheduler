@@ -2,7 +2,7 @@ package ru.nanit.vasyascheduler.data.schedule;
 
 public class SheetPoint {
 
-    private int col, row;
+    private final int col, row;
 
     public SheetPoint(int col, int row){
         this.col = col;

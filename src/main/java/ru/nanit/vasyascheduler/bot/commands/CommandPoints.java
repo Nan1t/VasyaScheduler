@@ -79,7 +79,7 @@ public class CommandPoints implements CommandHandler {
             }
 
             if(image != null){
-                Media media = new Media(Media.Type.IMAGE);
+                Media media = new Media(Media.Type.DOCUMENT);
                 media.setFileName("points." + XlsToImage.getFileName());
                 media.setStream(ImageUtil.createInputStream(image, XlsToImage.getFileName()));
                 message.addMedia(media);
@@ -90,6 +90,7 @@ public class CommandPoints implements CommandHandler {
         }
 
         message.setMessage(lang.of("command.points.error"));
+
         return message;
     }
 }

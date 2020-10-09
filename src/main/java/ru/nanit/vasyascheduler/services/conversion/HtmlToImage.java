@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 
 public final class HtmlToImage {
 
-	private String html;
+	private final String html;
 
 	public HtmlToImage(String html){
 		this.html = html;

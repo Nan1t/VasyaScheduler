@@ -102,7 +102,7 @@ public final class XlsToImage {
     }
 
     public static String getFileName(){
-        return FORMAT.getName().toLowerCase();
+        return "png";
     }
 
     private static BufferedImage removeWatermark(BufferedImage image){
