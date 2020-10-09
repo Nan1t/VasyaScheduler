@@ -58,6 +58,7 @@ public final class ScheduleManager {
 
     public void updateStudentsSchedule() throws Exception {
         Collection<StudentSchedule> students = studentSchedule.values();
+
         for (StudentSchedule schedule : students){
             try{
                 Logger.info("Try to parse students schedule '" + schedule.getName() + "'...");
@@ -67,6 +68,8 @@ public final class ScheduleManager {
                 Logger.error("Cannot load schedule " + schedule.getName() + ": ", e);
             }
         }
+
+        mergeAudDays();
         Logger.info("Updated (re-parsed) students schedule");
     }
 
@@ -94,15 +97,15 @@ public final class ScheduleManager {
 
     public void loadStudentsSchedule() throws Exception {
         Logger.info("Loading students schedule...");
-        List<StudentSchedule> schedules = scheduleConf.get().getNode("students").getList(TypeToken.of(StudentSchedule.class));
+        List<StudentSchedule> schedule = scheduleConf.get().getNode("students").getList(TypeToken.of(StudentSchedule.class));
 
-        for (StudentSchedule schedule : schedules){
+        for (StudentSchedule sch : schedule){
             try{
-                schedule.parse();
-                studentSchedule.put(schedule.getName(), schedule);
-                Logger.info("Loaded student schedule '" + schedule.getName() + "'");
+                sch.parse();
+                studentSchedule.put(sch.getName(), sch);
+                Logger.info("Loaded student schedule '" + sch.getName() + "'");
             } catch (Exception e){
-                Logger.error("Cannot load schedule " + schedule.getName() + ": ", e);
+                Logger.error("Cannot load schedule " + sch.getName() + ": ", e);
             }
         }
 
@@ -166,7 +169,7 @@ public final class ScheduleManager {
         return auds;
     }
 
-    public final class Builder {
+    public static final class Builder {
 
         private Builder(){}
 

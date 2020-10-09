@@ -18,7 +18,7 @@ import java.util.regex.Matcher;
 
 public class StudentSchedule extends Schedule {
 
-    private String name;
+    private final String name;
     private String displayName;
     private ParseData parseData;
     private Map<Integer, Day> days;
@@ -55,20 +55,6 @@ public class StudentSchedule extends Schedule {
 
     public Collection<String> getAuds(){
         return auds.keySet();
-    }
-
-    public void printAll(){
-        for (Map.Entry<Integer, Day> day : days.entrySet()){
-            System.out.println(Days.getDayName(day.getKey()));
-
-            for (Map.Entry<Integer, Map<Person, Class>> entry : day.getValue().getClasses().entrySet()){
-                System.out.println("  Class " + entry.getKey());
-
-                for (Map.Entry<Person, Class> classes : entry.getValue().entrySet()){
-                    classes.getValue().print();
-                }
-            }
-        }
     }
 
     @Override

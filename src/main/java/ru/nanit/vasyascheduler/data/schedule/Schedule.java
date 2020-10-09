@@ -54,7 +54,8 @@ public abstract class Schedule {
 
             image = new XlsToImage(workbook, getSheet())
                     .format(ImageFormat.getPng())
-                    .resolution(155)
+                    //.format(ImageFormat.getJpeg())
+                    .resolution(150)
                     .generate();
 
             workbook.dispose();
