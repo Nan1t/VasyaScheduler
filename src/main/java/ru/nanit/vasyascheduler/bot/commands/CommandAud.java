@@ -13,6 +13,7 @@ import ru.nanit.vasyascheduler.data.chat.Message;
 import ru.nanit.vasyascheduler.services.BotManager;
 import ru.nanit.vasyascheduler.services.ScheduleManager;
 import ru.nanit.vasyascheduler.services.ScheduleTimer;
+import ru.nanit.vasyascheduler.services.conversion.XlsToImage;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -53,8 +54,8 @@ public class CommandAud implements CommandHandler {
                             return;
                         }
 
-                        media.setStream(ImageUtil.createInputStream(image, "png"));
-                        media.setFileName("audition.png");
+                        media.setStream(ImageUtil.createInputStream(image, XlsToImage.getFileName()));
+                        media.setFileName("audition." + XlsToImage.getFileName());
                         imgMessage.addMedia(media);
                         imgMessage.setChatId(sender.getId());
                         BotManager.getBot(sender.getBotType()).sendMessage(imgMessage);

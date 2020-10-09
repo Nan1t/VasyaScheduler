@@ -147,7 +147,6 @@ public class ConsultationSchedule extends Schedule {
                 }
 
                 return new XlsToImage(workbook)
-                        .format(ImageFormat.getPng())
                         .resolution(64)
                         .generate();
             }

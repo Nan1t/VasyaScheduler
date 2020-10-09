@@ -192,7 +192,6 @@ public final class ScheduleManager {
             }
 
             return new XlsToImage(workbook)
-                    .format(ImageFormat.getPng())
                     .resolution(80)
                     .generate();
         }

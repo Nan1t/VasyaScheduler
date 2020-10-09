@@ -15,6 +15,7 @@ import ru.nanit.vasyascheduler.services.BotManager;
 import ru.nanit.vasyascheduler.services.ScheduleManager;
 import ru.nanit.vasyascheduler.services.ScheduleTimer;
 import ru.nanit.vasyascheduler.services.SubscribesManager;
+import ru.nanit.vasyascheduler.services.conversion.XlsToImage;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -66,8 +67,8 @@ public class CommandStudentsSubscribe implements CommandHandler {
                     Message scheduleMessage = new Message();
                     Media media = new Media(Media.Type.DOCUMENT);
 
-                    media.setStream(ImageUtil.createInputStream(schedule.toImage(), "png"));
-                    media.setFileName("schedule.png");
+                    media.setStream(ImageUtil.createInputStream(schedule.toImage(), XlsToImage.getFileName()));
+                    media.setFileName("schedule." + XlsToImage.getFileName());
                     scheduleMessage.addMedia(media);
                     scheduleMessage.setChatId(sender.getId());
 

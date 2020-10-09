@@ -176,7 +176,6 @@ public class TeacherSchedule extends Schedule {
                 }
 
                 return new XlsToImage(workbook)
-                        .format(ImageFormat.getPng())
                         .resolution(80)
                         .generate();
             }

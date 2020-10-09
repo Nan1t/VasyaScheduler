@@ -12,6 +12,8 @@ import java.util.List;
 
 public final class XlsToImage {
 
+    private static final ImageFormat FORMAT = ImageFormat.getGif();
+
     private final ImageOrPrintOptions options;
     private final Workbook workbook;
     private final int sheetIndex;
@@ -30,7 +32,7 @@ public final class XlsToImage {
         options.setQuality(100);
         options.setOnePagePerSheet(true);
         options.setOutputBlankPageWhenNothingToPrint(true);
-        options.setImageFormat(ImageFormat.getJpeg());
+        options.setImageFormat(FORMAT);
     }
 
     public XlsToImage resolution(int value){
@@ -97,6 +99,10 @@ public final class XlsToImage {
         }
 
         return null;
+    }
+
+    public static String getFileName(){
+        return FORMAT.getName().toLowerCase();
     }
 
     private static BufferedImage removeWatermark(BufferedImage image){

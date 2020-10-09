@@ -10,16 +10,17 @@ import ru.nanit.vasyascheduler.data.chat.Message;
 import ru.nanit.vasyascheduler.data.user.SubscriberPoints;
 import ru.nanit.vasyascheduler.services.PointsManager;
 import ru.nanit.vasyascheduler.services.SubscribesManager;
+import ru.nanit.vasyascheduler.services.conversion.XlsToImage;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class CommandPoints implements CommandHandler {
 
-    private Language lang;
-    private PointsManager pointsManager;
-    private SubscribesManager subscribes;
-    private Message help;
+    private final Language lang;
+    private final PointsManager pointsManager;
+    private final SubscribesManager subscribes;
+    private final Message help;
 
     public CommandPoints(Language lang, PointsManager pointsManager, SubscribesManager subscribes){
         this.lang = lang;
@@ -79,10 +80,9 @@ public class CommandPoints implements CommandHandler {
 
             if(image != null){
                 Media media = new Media(Media.Type.IMAGE);
-                media.setFileName("points.png");
-                media.setStream(ImageUtil.createInputStream(image, "png"));
+                media.setFileName("points." + XlsToImage.getFileName());
+                media.setStream(ImageUtil.createInputStream(image, XlsToImage.getFileName()));
                 message.addMedia(media);
-                message.setMessage("points.png");
                 return message;
             }
         } catch (IOException e){

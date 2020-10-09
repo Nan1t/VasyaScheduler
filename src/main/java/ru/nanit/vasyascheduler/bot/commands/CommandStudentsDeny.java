@@ -9,8 +9,8 @@ import ru.nanit.vasyascheduler.services.SubscribesManager;
 
 public class CommandStudentsDeny implements CommandHandler {
 
-    private Language lang;
-    private SubscribesManager subscribesManager;
+    private final Language lang;
+    private final SubscribesManager subscribesManager;
 
     public CommandStudentsDeny(Language lang, SubscribesManager subscribesManager){
         this.lang = lang;

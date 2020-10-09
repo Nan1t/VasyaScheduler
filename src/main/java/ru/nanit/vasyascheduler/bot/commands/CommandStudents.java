@@ -13,6 +13,7 @@ import ru.nanit.vasyascheduler.services.BotManager;
 import ru.nanit.vasyascheduler.services.ScheduleManager;
 import ru.nanit.vasyascheduler.services.ScheduleTimer;
 import ru.nanit.vasyascheduler.services.SubscribesManager;
+import ru.nanit.vasyascheduler.services.conversion.XlsToImage;
 
 import java.awt.image.BufferedImage;
 import java.util.concurrent.CompletableFuture;
@@ -45,10 +46,10 @@ public class CommandStudents implements CommandHandler {
                     BufferedImage image = schedule.toImage();
 
                     if(image != null){
-                        Message response = new Message("schedule.png");
+                        Message response = new Message();
                         Media media = new Media(Media.Type.DOCUMENT);
-                        media.setStream(ImageUtil.createInputStream(image, "png"));
-                        media.setFileName("schedule.png");
+                        media.setStream(ImageUtil.createInputStream(image, XlsToImage.getFileName()));
+                        media.setFileName("schedule." + XlsToImage.getFileName());
                         response.addMedia(media);
                         response.setChatId(sender.getId());
                         BotManager.getBot(sender.getBotType()).sendMessage(response);

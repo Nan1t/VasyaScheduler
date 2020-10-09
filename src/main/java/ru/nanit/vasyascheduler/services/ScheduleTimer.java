@@ -11,6 +11,7 @@ import ru.nanit.vasyascheduler.data.chat.Message;
 import ru.nanit.vasyascheduler.data.schedule.StudentSchedule;
 import ru.nanit.vasyascheduler.data.user.SubscriberStudent;
 import ru.nanit.vasyascheduler.data.user.SubscriberTeacher;
+import ru.nanit.vasyascheduler.services.conversion.XlsToImage;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -116,8 +117,8 @@ public final class ScheduleTimer {
                             Message message = new Message(lang.of("timer.new_schedule"));
                             Media media = new Media(Media.Type.DOCUMENT);
 
-                            media.setStream(ImageUtil.createInputStream(built, "png"));
-                            media.setFileName("schedule.png");
+                            media.setStream(ImageUtil.createInputStream(built, XlsToImage.getFileName()));
+                            media.setFileName("schedule." + XlsToImage.getFileName());
                             message.addMedia(media);
                             message.setChatId(teacher.getMessengerId());
                             message.setRemoveLastId(true);
@@ -155,8 +156,8 @@ public final class ScheduleTimer {
                             Message message = new Message(lang.of("timer.new_schedule.consultations"));
                             Media media = new Media(Media.Type.DOCUMENT);
 
-                            media.setStream(ImageUtil.createInputStream(built, "png"));
-                            media.setFileName("consultations.png");
+                            media.setStream(ImageUtil.createInputStream(built, XlsToImage.getFileName()));
+                            media.setFileName("consultations." + XlsToImage.getFileName());
                             message.addMedia(media);
                             message.setChatId(teacher.getMessengerId());
                             message.setRemoveLastId(true);
@@ -197,8 +198,8 @@ public final class ScheduleTimer {
                                 Message message = new Message(lang.of("timer.new_schedule"));
                                 Media media = new Media(Media.Type.DOCUMENT);
 
-                                media.setStream(ImageUtil.createInputStream(built, "png"));
-                                media.setFileName("students.png");
+                                media.setStream(ImageUtil.createInputStream(built, XlsToImage.getFileName()));
+                                media.setFileName("students." + XlsToImage.getFileName());
                                 message.addMedia(media);
                                 message.setChatId(student.getMessengerId());
                                 message.setRemoveLastId(true);

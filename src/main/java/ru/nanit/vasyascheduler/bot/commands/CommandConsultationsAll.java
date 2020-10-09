@@ -8,6 +8,7 @@ import ru.nanit.vasyascheduler.data.chat.Media;
 import ru.nanit.vasyascheduler.data.chat.Message;
 import ru.nanit.vasyascheduler.services.ScheduleManager;
 import ru.nanit.vasyascheduler.services.ScheduleTimer;
+import ru.nanit.vasyascheduler.services.conversion.XlsToImage;
 
 import java.awt.image.BufferedImage;
 
@@ -32,8 +33,8 @@ public class CommandConsultationsAll implements CommandHandler {
         if(image != null){
             Message message = new Message();
             Media media = new Media(Media.Type.DOCUMENT);
-            media.setStream(ImageUtil.createInputStream(image, "png"));
-            media.setFileName("consultations.png");
+            media.setStream(ImageUtil.createInputStream(image, XlsToImage.getFileName()));
+            media.setFileName("consultations." + XlsToImage.getFileName());
             message.addMedia(media);
             return message;
         }
