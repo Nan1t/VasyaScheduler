@@ -1,72 +1,94 @@
-[20:12:00] INFO: Loading libraries...
-[20:12:00] INFO: Starting bot...
-[20:12:00] INFO: Connecting to database...
-[20:12:00] INFO: H2 connection pool created
-[20:12:00] INFO: Connected successfully to jdbc:h2:E:\IdeaProjects\VasyaScheduler\build\libs\users
-[20:12:01] INFO: Loading teachers schedule...
-[20:12:02] INFO: Teachers schedule loaded!
-[20:12:02] INFO: Loading consultations schedule...
-[20:12:04] INFO: Consultations schedule loaded!
-[20:12:04] INFO: Loading students schedule...
-[20:12:05] INFO: Loaded student schedule 'inst_1'
-[20:12:06] INFO: Loaded student schedule 'inst_2'
-[20:12:07] INFO: Loaded student schedule 'inst_3'
-[20:12:07] INFO: Loaded student schedule 'inst_4'
-[20:12:08] INFO: Loaded student schedule 'inst_5'
-[20:12:10] INFO: Loaded student schedule 'col_1'
-[20:12:11] INFO: Loaded student schedule 'col_2'
-[20:12:11] INFO: Loaded student schedule 'col_3'
-[20:12:14] INFO: Loaded student schedule 'col_4'
-[20:12:15] INFO: Loaded student schedule 'inst_zo_1'
-[20:12:16] INFO: Loaded student schedule 'inst_zo_2'
-[20:12:16] INFO: Loaded student schedule 'inst_zo_3'
-[20:12:17] INFO: Loaded student schedule 'inst_zo_4'
-[20:12:17] INFO: Loaded student schedule 'inst_zo_5'
-[20:12:18] INFO: Loaded student schedule 'inst_zo_3_4'
-[20:12:19] INFO: Loaded student schedule 'col_zo_1'
-[20:12:19] INFO: Loaded student schedule 'col_zo_2'
-[20:12:20] INFO: Loaded student schedule 'col_zo_3'
-[20:12:20] INFO: Merged audition days of ауд.209
-[20:12:20] INFO: Merged audition days of ауд.308
-[20:12:20] INFO: Merged audition days of ауд.208
-[20:12:20] INFO: Merged audition days of ауд.109
-[20:12:20] INFO: Merged audition days of ауд.009
-[20:12:20] INFO: Merged audition days of ауд.306
-[20:12:20] INFO: Merged audition days of ауд.108
-[20:12:20] INFO: Merged audition days of ауд.305
-[20:12:20] INFO: Merged audition days of ауд.206
-[20:12:20] INFO: Merged audition days of ауд.007
-[20:12:20] INFO: Merged audition days of ауд.205
-[20:12:20] INFO: Merged audition days of ауд.106
-[20:12:20] INFO: Merged audition days of ауд.304
-[20:12:20] INFO: Merged audition days of ауд.303
-[20:12:20] INFO: Merged audition days of ауд.204
-[20:12:20] INFO: Merged audition days of ауд.104
-[20:12:20] INFO: Merged audition days of ауд.203
-[20:12:20] INFO: Merged audition days of ауд.005
-[20:12:20] INFO: Merged audition days of ауд.301
-[20:12:20] INFO: Merged audition days of ауд.103
-[20:12:20] INFO: Merged audition days of ауд.004
-[20:12:20] INFO: Merged audition days of ауд.101
-[20:12:20] INFO: Merged audition days of ауд.002
-[20:12:20] INFO: Merged audition days of ауд.001
-[20:12:20] INFO: Merged audition days of ауд.216
-[20:12:20] INFO: Merged audition days of ауд.314
-[20:12:20] INFO: Merged audition days of ауд.214
-[20:12:20] INFO: Merged audition days of ауд.312
-[20:12:20] INFO: Merged audition days of ауд.
-[20:12:20] INFO: Merged audition days of ауд.112
-[20:12:20] INFO: Merged audition days of ауд.210
-[20:12:20] INFO: Merged audition days of ауд.110
-[20:12:20] INFO: All audition days has been merged
-[20:12:20] INFO: All students schedule successfully loaded!
-[20:12:21] INFO: [TELEGRAM] Bot successfully started
-[20:12:21] INFO: Timer has been started
-[20:12:21] INFO: Done! For help, type "help" or "?"
-[20:12:29] INFO: [TELEGRAM] User [629654343@nan1t](Максим Гнутенко) entered command 'studentsubscribe'
-[20:12:30] INFO: Sent 1 messages in second
-[20:13:08] INFO: Stopping bot...
-[20:13:08] INFO: Database connection closed
-[20:13:08] INFO: Timer has been stopped
-[20:13:08] INFO: Telegram bot disabled
-[20:13:08] INFO: Good bye!
+[09:04:38] INFO: Loading libraries...
+[09:04:38] INFO: Starting bot...
+[09:04:38] INFO: Connecting to database...
+[09:04:38] INFO: H2 connection pool created
+[09:04:38] INFO: Connected successfully to jdbc:h2:E:\IdeaProjects\VasyaScheduler\build\libs\users
+[09:04:39] INFO: Loading teachers schedule...
+[09:04:40] INFO: Teachers schedule loaded!
+[09:04:40] INFO: Loading consultations schedule...
+[09:04:43] INFO: Consultations schedule loaded!
+[09:04:43] INFO: Loading students schedule...
+[09:04:44] INFO: Loaded student schedule 'inst_1'
+[09:04:44] INFO: Loaded student schedule 'inst_2'
+[09:04:45] INFO: Loaded student schedule 'inst_3'
+[09:04:46] INFO: Loaded student schedule 'inst_4'
+[09:04:48] INFO: Loaded student schedule 'inst_5'
+[09:04:49] INFO: Loaded student schedule 'col_1'
+[09:04:51] INFO: Loaded student schedule 'col_2'
+[09:04:51] INFO: Loaded student schedule 'col_3'
+[09:04:55] INFO: Loaded student schedule 'col_4'
+[09:04:56] INFO: Loaded student schedule 'inst_zo_1'
+[09:04:56] INFO: Loaded student schedule 'inst_zo_2'
+[09:04:57] INFO: Loaded student schedule 'inst_zo_3'
+[09:04:58] INFO: Loaded student schedule 'inst_zo_4'
+[09:04:58] INFO: Loaded student schedule 'inst_zo_5'
+[09:04:59] INFO: Loaded student schedule 'inst_zo_mg'
+[09:05:00] INFO: Loaded student schedule 'inst_zo_sb'
+[09:05:01] INFO: Loaded student schedule 'col_zo_1'
+[09:05:02] INFO: Loaded student schedule 'col_zo_2'
+[09:05:03] INFO: Loaded student schedule 'col_zo_3'
+[09:05:04] INFO: Loaded student schedule 'dist_mg'
+[09:05:05] INFO: Loaded student schedule 'dist_bkl'
+[09:05:05] INFO: Merged audition days of ауд.209
+[09:05:05] INFO: Merged audition days of ауд.308
+[09:05:05] INFO: Merged audition days of ауд.208
+[09:05:05] INFO: Merged audition days of ауд.109
+[09:05:05] INFO: Merged audition days of ауд.009
+[09:05:05] INFO: Merged audition days of ауд.306
+[09:05:05] INFO: Merged audition days of ауд.108
+[09:05:05] INFO: Merged audition days of ауд.305
+[09:05:05] INFO: Merged audition days of ауд.206
+[09:05:05] INFO: Merged audition days of ауд.007
+[09:05:05] INFO: Merged audition days of ауд.205
+[09:05:05] INFO: Merged audition days of ауд.106
+[09:05:05] INFO: Merged audition days of ауд.304
+[09:05:05] INFO: Merged audition days of ауд.303
+[09:05:05] INFO: Merged audition days of ауд.204
+[09:05:05] INFO: Merged audition days of ауд.104
+[09:05:05] INFO: Merged audition days of ауд.203
+[09:05:05] INFO: Merged audition days of ауд.005
+[09:05:05] INFO: Merged audition days of ауд.301
+[09:05:05] INFO: Merged audition days of ауд.103
+[09:05:05] INFO: Merged audition days of ауд.004
+[09:05:05] INFO: Merged audition days of ауд.101
+[09:05:05] INFO: Merged audition days of ауд.002
+[09:05:05] INFO: Merged audition days of ауд.001
+[09:05:05] INFO: Merged audition days of ауд.216
+[09:05:05] INFO: Merged audition days of ауд.314
+[09:05:05] INFO: Merged audition days of ауд.214
+[09:05:05] INFO: Merged audition days of ауд.312
+[09:05:05] INFO: Merged audition days of ауд.
+[09:05:05] INFO: Merged audition days of ауд.112
+[09:05:05] INFO: Merged audition days of ауд.210
+[09:05:05] INFO: Merged audition days of ауд.110
+[09:05:05] INFO: All audition days has been merged
+[09:05:05] INFO: All students schedule successfully loaded!
+[09:05:06] INFO: [TELEGRAM] Bot successfully started
+[09:05:06] INFO: Timer has been started
+[09:05:06] INFO: Done! For help, type "help" or "?"
+[09:05:07] INFO: [TELEGRAM] User [629654343@nan1t](Максим Гнутенко) entered command 'tdeny'
+[09:05:07] INFO: Sent 1 messages in second
+[09:05:18] INFO: [TELEGRAM] User [629654343@nan1t](Максим Гнутенко) entered command 'studentsubscribe'
+[09:05:20] INFO: Sent 1 messages in second
+[09:05:30] INFO: [TELEGRAM] User [629654343@nan1t](Максим Гнутенко) entered command 'studentsubscribe dist_bkl'
+[09:05:31] INFO: Sent 1 messages in second
+[09:05:32] INFO: Sent 1 messages in second
+[09:05:37] INFO: [TELEGRAM] User [629654343@nan1t](Максим Гнутенко) entered command 'studentsubscribe dist_mg'
+[09:05:38] INFO: Sent 2 messages in second
+[09:06:22] INFO: [TELEGRAM] User [629654343@nan1t](Максим Гнутенко) entered command 'teachersubscribe'
+[09:06:23] INFO: Sent 1 messages in second
+[09:06:25] INFO: [TELEGRAM] User [629654343@nan1t](Максим Гнутенко) entered command 'teachersubscribe Гудима О В'
+[09:06:26] INFO: Sent 2 messages in second
+[09:06:43] INFO: [TELEGRAM] User [629654343@nan1t](Максим Гнутенко) entered command 'teachersubscribe'
+[09:06:43] INFO: Sent 1 messages in second
+[09:06:45] INFO: [TELEGRAM] User [629654343@nan1t](Максим Гнутенко) entered command 'teachersubscribe Гнєушева В О'
+[09:06:46] INFO: Sent 2 messages in second
+[09:07:12] INFO: [TELEGRAM] User [629654343@nan1t](Максим Гнутенко) entered command 'studentsubscribe'
+[09:07:13] INFO: Sent 1 messages in second
+[09:07:15] INFO: [TELEGRAM] User [629654343@nan1t](Максим Гнутенко) entered command 'studentsubscribe inst_zo_mg'
+[09:07:16] INFO: Sent 2 messages in second
+[09:08:07] INFO: Stopping bot...
+[09:08:07] INFO: Database connection closed
+[09:08:07] INFO: Timer has been stopped
+[09:08:07] INFO: Telegram bot disabled
+[09:08:07] INFO: Good bye!

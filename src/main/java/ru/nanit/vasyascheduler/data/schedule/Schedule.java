@@ -1,13 +1,10 @@
 package ru.nanit.vasyascheduler.data.schedule;
 
-import com.aspose.cells.ImageFormat;
 import com.aspose.cells.Workbook;
-import org.apache.commons.io.FilenameUtils;
 import ru.nanit.vasyascheduler.api.util.Logger;
 import ru.nanit.vasyascheduler.services.conversion.XlsToImage;
 
 import java.awt.image.BufferedImage;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -48,21 +45,9 @@ public abstract class Schedule {
 
     public abstract void parse() throws Exception;
 
-    public void parseImage(){
-        try (InputStream stream = link.openStream()){
-            Workbook workbook = new Workbook(stream);
-
-            image = new XlsToImage(workbook, getSheet())
-                    .resolution(155)
-                    .generate();
-        } catch (Exception e){
-            Logger.error("Cannot convert schedule "+FilenameUtils.getName(link.getFile())+" to image: ", e);
-        }
-    }
-
     public void parseImage(Workbook workbook){
         image = new XlsToImage(workbook, getSheet())
-                .resolution(155)
+                .resolution(180)
                 .generate();
     }
 
