@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
  */
 public class Person implements Comparable {
 
-    private String firstName, lastName, patronymic;
+    private final String firstName, lastName, patronymic;
 
     public Person(String firstName, String lastName, String patronymic){
         this.firstName = firstName;

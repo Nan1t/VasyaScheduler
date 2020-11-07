@@ -112,7 +112,14 @@ public class TeacherSchedule extends Schedule {
                     classNum++;
                 }
 
-                weeks.put(Person.parseFromString(teacher), week);
+                Person person = Person.parseFromString(teacher);
+
+                if (person != null){
+                    weeks.put(person, week);
+                } else {
+                    Logger.warn("Cannot parse teacher '" + teacher + "'. Wrong name format");
+                }
+
                 row++;
             }
 
